@@ -1,0 +1,180 @@
+.PlayList-Wrapper {
+  position: relative;
+  .PlayList-inner {
+    // height: 50vh;
+    // background-color: aqua;
+    h3 {
+      margin: 0px;
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+      font-family: system-ui;
+    }
+    .PlayList-act {
+      button {
+        border-radius: 20px;
+        color: rgb(88, 87, 87);
+        font-weight: 600;
+        margin-right: 10px;
+        border: 1px solid transparent;
+        transition: 0.25s ease-in-out;
+        &:hover {
+          background-color: black;
+          color: white;
+          border-color: white;
+        }
+      }
+    }
+    .PlayList-content {
+      width: 100%;
+      // min-height: 100px;
+      // background-color: rgb(19, 19, 20);
+      border-radius: 20px;
+      margin-top: 20px;
+      .PlayList-movies {
+        margin-top: 20px;
+      }
+      .PlayList-nameGenres {
+        padding: 5px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        p {
+          margin: 0;
+          margin-bottom: 10px;
+        }
+        .PlayList-item {
+          width: 200px;
+          padding: 0.9rem 1.2rem;
+          border: 2px solid rgba(107, 107, 107, 0.233);
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          border-radius: 0.75rem;
+          position: relative;
+          cursor: pointer;
+          box-shadow: inset 0 0 0 3px #ffffff03;
+          p {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 160px;
+            overflow: hidden;
+          }
+          .footer-playList {
+            font-size: 0.875em;
+            color: gray;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .footer-left {
+              span {
+                margin-right: 5px;
+              }
+            }
+            .footer-right {
+              text-decoration: underline;
+            }
+          }
+        }
+        .activeItem {
+          border-color: #ffde8a;
+        }
+        .empty {
+          padding: 3rem 2rem;
+          width: 100%;
+          border-radius: 10px;
+          display: flex;
+          // flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          font-size: 14px;
+          color: #aaa;
+          background-color: rgb(19, 19, 20);
+        }
+      }
+    }
+  }
+  .include-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    width: 100%;
+    background-color: #121818d4;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .modal-content {
+      background-color: #2a314e;
+      border: none !important;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      color: #fff9;
+      position: relative;
+      .close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 20px;
+        transition: 0.25s ease-in-out;
+        cursor: pointer;
+        &:hover {
+          transform: rotate(90deg);
+          color: #ffde8a;
+        }
+      }
+      .heading {
+        font-size: 1.1em;
+        font-weight: 600;
+        line-height: 1.5;
+        margin-bottom: 0.5rem;
+        color: #fff;
+      }
+      input {
+        min-width: 300px;
+        margin-top: 10px;
+        background-color: transparent !important;
+        height: 42px;
+        border: 1px solid #ffffff10;
+        border-radius: 0.4rem;
+        color: #fff !important;
+        font-size: 0.95em;
+        padding: 0.5rem 1rem;
+      }
+      .footer-modal {
+        margin-top: 20px;
+        text-align: center;
+        button {
+          min-width: 80px;
+          padding: 7px 10px;
+          border-radius: 5px;
+          cursor: pointer;
+          border: none;
+        }
+        .addPlayList {
+          background-color: #ffd875;
+          color: black;
+          span:first-child {
+            margin-right: 5px;
+          }
+          margin-right: 10px;
+        }
+        .savePlayList {
+          background-color: #ffd875;
+          color: black;
+          span:first-child {
+            margin-right: 5px;
+          }
+          margin-right: 10px;
+        }
+        .deletePlayList {
+          background-color: rgb(255, 0, 0);
+          color: white;
+          span:first-child {
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+  }
+}

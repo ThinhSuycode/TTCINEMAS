@@ -1,0 +1,11 @@
+export { default as Home } from "./Home/Home";
+export { default as Payment } from "./Payment/Payment";
+export { default as MovieDetail } from "./MovieDetail/MovieDetail";
+export { default as ListGenres } from "./ListGenres/ListGenres";
+export { default as MovieUpComing } from "./MovieUpComing/MovieUpComing";
+export { default as User } from "./User/User";
+export { default as Profile } from "./Profile/Profile";
+export { default as Favorite } from "./Favorite/Favorite";
+export { default as PlayList } from "./PlayList/PlayList";
+export { default as MovieAll } from "./MovieAll/MovieAll";
+export { default as WalletTotal } from "./WalletTotal/WalletTotal";

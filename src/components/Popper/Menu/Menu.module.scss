@@ -1,0 +1,122 @@
+//menu
+.Menu-inner {
+  width: 200px;
+  .menu-item {
+    margin-left: 0px !important;
+    background-color: #272c43;
+    color: white;
+  }
+}
+.logout {
+  width: 200px;
+  background-color: #272c43 !important;
+  display: flex;
+  justify-content: start !important;
+  color: white !important;
+  font-size: 14px;
+  border-top: 1px solid #ffaaaa8a !important;
+  border: none !important;
+  padding: 11px 16px !important;
+  margin-left: 3px !important;
+  span {
+    font-size: 14px;
+    &:first-child {
+      margin-right: 0.75rem;
+    }
+  }
+  &:hover {
+    background-color: rgba(107, 108, 113, 0.26);
+  }
+}
+.amount-line {
+  display: flex;
+  padding: 11px 16px !important;
+  font-size: 14px;
+  border-bottom: 2px solid #8080808a;
+  // border-top: 1px solid #8080808a;
+  color: white;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+
+  .amount-left {
+    display: flex;
+    align-items: center;
+    margin-left: 3px;
+    span:last-child {
+      margin-left: 10px;
+    }
+  }
+  .amount-right {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    gap: 2px;
+  }
+  span:nth-child(3) {
+    color: yellow;
+  }
+  .btn-upWallet {
+    // margin-left: 10px;
+    display: flex;
+    align-items: center;
+    padding: 5px 7px;
+    background-color: white;
+    border-radius: 10px;
+    color: black;
+    cursor: pointer;
+    transition: 0.25s ease-in-out;
+    gap: 4px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 10px;
+    &:hover {
+      background-color: #c7ff0daf;
+      color: rgb(255, 255, 255);
+    }
+  }
+}
+
+.menu-wrapper {
+  padding-left: 0px !important;
+  padding-bottom: 8px !important;
+}
+.menu-item {
+  // font-weight: 500 !important;
+  width: 100%;
+  justify-content: flex-start !important;
+  padding: 11px 16px !important;
+  border-radius: 0px !important;
+  height: 42px;
+  background-color: #272c43;
+
+  &:hover {
+    background-color: rgba(107, 108, 113, 0.26);
+  }
+}
+
+//header
+.header {
+  position: relative;
+  height: 50px;
+  margin-top: -8px;
+  border-bottom: 1px solid rgba(22, 24, 35, 0.06);
+}
+.btn-back {
+  width: 50px;
+  height: 100%;
+  cursor: pointer;
+  background-color: transparent;
+  // border-right: 1px solid rgba(22, 24, 35, 0.6);
+}
+.header-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.menu-item:last-child {
+  border-top: 1px solid #8080808a;
+  border-radius: 0px;
+}

@@ -1,0 +1,22 @@
+.User-Wrapper {
+  //   background-color: aquamarine;
+  position: relative;
+  color: white;
+  .User-inner {
+    .User-list {
+      display: flex;
+      gap: 40px;
+      .User-left {
+        width: 20%;
+        flex-shrink: 0;
+        padding: 20px 40px;
+        border-radius: 1rem;
+        min-height: 100vh;
+        background-color: #25272f;
+      }
+      .User-right {
+        width: 80%;
+      }
+    }
+  }
+}

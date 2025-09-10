@@ -1,0 +1,54 @@
+.Favorite-Wrapper {
+  .Favorite-inner {
+    height: 50vh;
+    // background-color: aqua;
+    h3 {
+      margin: 0px;
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+      font-family: system-ui;
+    }
+    .Favorite-act {
+      button {
+        border-radius: 20px;
+        color: rgb(88, 87, 87);
+        font-weight: 600;
+        margin-right: 10px;
+        border: 2px solid transparent;
+        outline: none;
+        transition: 0.25s ease-in-out;
+        &:hover {
+          background-color: black;
+          color: white;
+          border-color: white;
+        }
+      }
+      .active {
+        background-color: black;
+        color: white;
+        border-color: rgb(33, 255, 251);
+      }
+    }
+    .Favorite-content {
+      width: 100%;
+      min-height: 100px;
+      // background-color: rgb(19, 19, 20);
+      border-radius: 20px;
+      margin-top: 20px;
+      overflow: hidden;
+      .Favorite-list {
+        padding: 10px;
+        .empty {
+          padding: 3rem 2rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 14px;
+          color: #aaa;
+          background-color: rgb(19, 19, 20);
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+}

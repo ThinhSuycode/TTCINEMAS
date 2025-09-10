@@ -1,0 +1,16 @@
+.Home-Wrapper {
+  width: 100%;
+
+  background-color: black;
+  // padding-bottom: 10px;
+  .Home-inner {
+    width: 100%;
+    height: 100%;
+    .Home-content {
+      .Home-content-bottom {
+        // border-top: 2px solid white;
+        width: 100%;
+      }
+    }
+  }
+}

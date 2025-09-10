@@ -1,0 +1,99 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1rem;
+  min-width: 100px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  border: 1px solid transparent;
+  background-color: white;
+  user-select: none;
+  // span {
+  //   min-width: 50px;
+  // }
+  .amount-line {
+    display: flex;
+    position: absolute;
+    gap: 8px;
+    align-items: center;
+    .btn-upWallet {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px;
+      background-color: rgba(246, 255, 255, 0.556);
+      color: black;
+      border-radius: 10px;
+    }
+  }
+  cursor: pointer;
+  gap: 0.75rem;
+
+  + .wrapper {
+    margin-left: 8px;
+  }
+  &.disable {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+// .icon + .tittle,
+// .tittle + .icon {
+//   gap: 0.75rem;
+// }
+.icon {
+  // display: inline-block;
+  width: 24px;
+  text-align: center;
+}
+//Nên bỏ trc .primary để cho .primary ưu tiên hơn
+.rounded {
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgb(0 0 0 /6%);
+  border-color: rgba(22, 24, 35, 0.12);
+  &:hover {
+    border-color: rgba(22, 24, 35, 0.2);
+    background-color: rgba(22, 24, 35, 0.03);
+  }
+}
+
+.primary {
+  background-color: var(--primary-Color);
+  color: var(--white);
+  border-color: var(--primary-Color);
+  &:hover {
+    border-color: var(--primary-Color);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)),
+      #fe2c55;
+  }
+}
+.outline {
+  color: var(--primary-Color);
+  border: 1px solid currentColor;
+  &:hover {
+    background-color: rgba(254, 44, 85, 0.06);
+  }
+}
+
+//Button size
+.small {
+  padding: 4px 16px;
+  min-width: 88px;
+}
+.large {
+  min-width: 140px;
+  padding: 14px 16px;
+}
+
+.text {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.menu-item {
+  font-weight: 500;
+}

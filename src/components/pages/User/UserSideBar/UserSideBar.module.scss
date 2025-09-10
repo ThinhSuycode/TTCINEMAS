@@ -1,0 +1,38 @@
+.UserSideBar-Wrapper {
+  color: white;
+  .UserSideBar__heading {
+    text-transform: uppercase;
+  }
+  .logout {
+    display: flex;
+    gap: 10px;
+    span {
+      color: white;
+    }
+  }
+  .UserSideBar-list {
+    margin-bottom: 20px;
+    a {
+      color: white;
+    }
+    .UserSideBar-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 15px 0px;
+      border-bottom: 1px solid #2e313a;
+
+      span {
+        transition: 0.25s ease-in-out;
+      }
+
+      &:hover span {
+        color: rgba(255, 77, 6, 0.766);
+        opacity: 0.65;
+      }
+    }
+    .activeItem {
+      color: rgba(255, 77, 6, 0.968);
+    }
+  }
+}
