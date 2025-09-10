@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./Profile.module.scss";
 import Button from "../../Button";
+import { useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faGrip } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState, useCallback } from "react";
@@ -42,9 +43,11 @@ function Profile() {
   const [storedUsers, setStoredUsers] = useState(
     JSON.parse(localStorage.getItem("userActive")) || {}
   );
-  const listAccount = localStorage.getItem("listUserAccount")
-    ? JSON.parse(localStorage.getItem("listUserAccount"))
-    : [];
+  const listAccount = useMemo(() => {
+    return localStorage.getItem("listUserAccount")
+      ? JSON.parse(localStorage.getItem("listUserAccount"))
+      : [];
+  }, []);
   const [selectLogoIdx, setSelectLogoIdx] = useState(0);
   const [selectLogoItemIdx, setSelectLogoItemIdx] = useState(null);
   const [selectLogoItemSrc, setSelectLogoItemSrc] = useState("");

@@ -32,14 +32,11 @@ function Footer() {
                 href="https://www.facebook.com/thinhcutek5?locale=vi_VN"
                 className={cx("footer-inner-social-item")}
                 target="_blank"
+                rel="noreferrer"
               >
                 <FontAwesomeIcon icon={faFacebook} />
               </a>
-              <a
-                href="#"
-                className={cx("footer-inner-social-item")}
-                target="_blank"
-              >
+              <a href="/" className={cx("footer-inner-social-item")}>
                 <FontAwesomeIcon icon={faInstagram} />
               </a>
               <a
@@ -91,12 +88,12 @@ function Footer() {
                 <h4 className={cx("footer-inner__title")}>DOWNLOAD APP</h4>
                 <ul className={cx("list-app")}>
                   <li>
-                    <a href="#" className={cx("app-store")}>
+                    <a href="/" className={cx("app-store")}>
                       <img src={appStore} alt="App Store" />
                     </a>
                   </li>
                   <li>
-                    <a href="#" className={cx("google-play")}>
+                    <a href="/" className={cx("google-play")}>
                       <img src={googlePlay} alt="Google Play" />
                     </a>
                   </li>

@@ -9,15 +9,10 @@ import {
   faPlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import MovieUserContent from "../../MovieUserContent/MovieUserContent";
 const cx = classNames.bind(styles);
 function PlayList() {
-  const [userActive, setUserActive] = useState(
-    () => JSON.parse(localStorage.getItem("userActive")) || {}
-  );
-
-  const listAccount = JSON.parse(localStorage.getItem("listUserAccount")) || [];
   const refInput = useRef();
   const [selectIdx, setSelectIdx] = useState(null);
   const [inputPlayListEdit, setInputPlayListEdit] = useState("");
@@ -25,6 +20,13 @@ function PlayList() {
   const [statusPlayList, setStatusPlayList] = useState("");
   const [selectMovie, setSelectMovie] = useState(null);
 
+  const [userActive, setUserActive] = useState(
+    () => JSON.parse(localStorage.getItem("userActive")) || {}
+  );
+  // Dùng useMemo để tránh khởi tạo lại mỗi lần render
+  const listAccount = useMemo(() => {
+    return JSON.parse(localStorage.getItem("listUserAccount")) || [];
+  }, []);
   const onHandleEdit = useCallback(
     (idx) => {
       setStatusPlayList("edit");
@@ -154,8 +156,7 @@ function PlayList() {
         )
       )
     );
-  }, [userActive]);
-
+  }, [userActive, listAccount]);
   // Xoá playlist
 
   const onHandleDelete = useCallback(() => {

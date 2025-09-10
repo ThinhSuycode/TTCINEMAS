@@ -83,7 +83,7 @@ function MovieUserContent({
     } else {
       setDataUpdate(data || []);
     }
-  }, [favorite, playlist, selectIdx]);
+  }, [favorite, playlist, selectIdx, data, userActive.storedMovies]);
 
   // Lưu phim đang chọn vào localStorage
   useEffect(() => {

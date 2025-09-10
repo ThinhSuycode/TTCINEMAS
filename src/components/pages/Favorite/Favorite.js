@@ -20,7 +20,7 @@ function Favorite() {
       listMovie: userActive.storedMovies || [],
       listActor: userActive.storedActors || [],
     });
-  }, []);
+  }, [userActive.storedMovies, userActive.storedActors]);
 
   return (
     <div className={cx("Favorite-Wrapper")}>

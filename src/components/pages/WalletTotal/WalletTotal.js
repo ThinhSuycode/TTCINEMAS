@@ -172,7 +172,7 @@ function WalletTotal() {
       }
       return null;
     },
-    [statusBank, selectIdxCard, contentQR, activeDescBank]
+    [statusBank, selectIdxCard, contentQR, activeDescBank, onHandleForm]
   );
 
   return (

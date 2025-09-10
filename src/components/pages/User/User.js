@@ -39,7 +39,6 @@ const userMenu = [
     titleEn: "favorite",
     to: "/user/favorite",
   },
-  ,
   {
     icon: <FontAwesomeIcon icon={faGear} />,
     titleVi: "Cài đặt",

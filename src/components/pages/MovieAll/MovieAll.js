@@ -1,21 +1,22 @@
 import classNames from "classnames/bind";
 import styles from "./MovieAll.module.scss";
 import ListMovieContent from "../../ListMovieContent/ListMovieContent";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import ListMovie from "../../ListMovie/ListMovie";
 import { SearchProvider } from "../../../context/SearchProvider";
 
 const cx = classNames.bind(styles);
 
 function MovieAll() {
-  const getMovieAll = JSON.parse(localStorage.getItem("viewGenresAll")) || {};
+  const getMovieAll = useMemo(() => {
+    return JSON.parse(localStorage.getItem("viewGenresAll")) || {};
+  }, []);
   const [MovieAll, setMovieAll] = useState([]);
   const [movieTopRate, setMovieTopRate] = useState([]);
 
   useEffect(() => {
     setMovieAll(getMovieAll.data);
   }, [getMovieAll]);
-  const [page, setPage] = useState(null);
   const [pageChanges, setPageChanges] = useState(1);
 
   const searchResult = SearchProvider();
@@ -58,7 +59,6 @@ function MovieAll() {
       const res = await fetch(url, options);
       const data = await res.json();
       setMovieAll(data.results.slice(0, 18));
-      setPage(data.total_pages);
     };
     if (pageChanges) fetchMovieAll(pageChanges);
   }, [pageChanges]);

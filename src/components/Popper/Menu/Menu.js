@@ -14,7 +14,6 @@ import {
   faSignOut,
   faWallet,
 } from "@fortawesome/free-solid-svg-icons";
-import Button from "../../Button";
 import { config } from "../../../config";
 const cx = classNames.bind(styles);
 
