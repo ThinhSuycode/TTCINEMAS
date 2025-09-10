@@ -1,7 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./User.module.scss";
 import UserSideBar from "./UserSideBar/UserSideBar";
-import Profile from "../Profile/Profile";
 import {
   faHeart,
   faPlus,

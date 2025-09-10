@@ -1,7 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./Profile.module.scss";
 import Button from "../../Button";
-import avatar from "../../../assets/icon/vietnam.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faGrip } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState, useCallback } from "react";
@@ -58,44 +57,46 @@ function Profile() {
   });
   const [activeChooseLogo, setActiveChooseLogo] = useState(false);
 
-  //Lưu dữ liệu lại khi thay đổi
-  useEffect(() => {
-    const dataUsers = JSON.parse(localStorage.getItem("userActive")) || {};
-    setStoredUsers(dataUsers);
-  }, []);
+  // Cập nhật localStorage
+  const updateUserStorage = useCallback(
+    (newUser) => {
+      setStoredUsers(newUser);
+      localStorage.setItem("userActive", JSON.stringify(newUser));
+      localStorage.setItem(
+        "listUserAccount",
+        JSON.stringify(
+          listAccount.map((el) => (el.email === newUser.email ? newUser : el))
+        )
+      );
+      window.dispatchEvent(new Event("storage"));
+    },
+    [listAccount]
+  );
 
-  const onHandleImg = (img, idx) => {
+  // Chọn logo có sẵn
+  const onHandleImg = useCallback((img, idx) => {
     setSelectLogoItemIdx(idx);
     setSelectLogoItemSrc(img);
-  };
+  }, []);
 
-  //Save logo mới
+  // Lưu logo mới
   const onSaveLogo = useCallback(() => {
     const newUpdate = {
       ...storedUsers,
       avatar: selectLogoItemSrc,
     };
-    setStoredUsers(newUpdate);
-    localStorage.setItem("userActive", JSON.stringify(newUpdate));
-    localStorage.setItem(
-      "listUserAccount",
-      JSON.stringify(
-        listAccount.map((el) =>
-          el.email === storedUsers.email ? newUpdate : el
-        )
-      )
-    );
+    updateUserStorage(newUpdate);
     alert("Cập nhật thành công !!");
     setActiveChooseLogo(false);
-    window.dispatchEvent(new Event("storage")); //Gọi sự kiện storage để các component khác nhận biết được sự thay đổi
-  }, [selectLogoItemSrc, storedUsers, listAccount]);
+  }, [selectLogoItemSrc, storedUsers, updateUserStorage]);
 
+  // Đổi thông tin input
   const onHandleChange = useCallback((e) => {
     const { name, value } = e.target;
     setUpdateInfo((prev) => ({ ...prev, [name]: value }));
   }, []);
 
-  useEffect(() => {}, [storedUsers]);
+  // Cập nhật thông tin user
   const onHandleUpdate = useCallback(() => {
     if (!updateInfo.username.trim()) {
       alert("Vui lòng nhập username để thực hiện cập nhật !!");
@@ -116,59 +117,49 @@ function Profile() {
       numberPhone: updateInfo.numberPhone || "",
       gender: updateInfo.gender || "",
     };
-    localStorage.setItem("userActive", JSON.stringify(updateInfoUser));
-    localStorage.setItem(
-      "listUserAccount",
-      JSON.stringify(
-        listAccount.map((acc) =>
-          acc.email === updateInfo.email ? updateInfoUser : acc
-        )
-      )
-    );
+    updateUserStorage(updateInfoUser);
     setUpdateInfo({ ...updateInfo });
     alert("Cập nhật thành công !!");
-  }, [updateInfo, listAccount, storedUsers]);
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("userActive"));
-    if (saved) {
-      setUpdateInfo({
-        email: saved.email || "",
-        username: saved.username || "",
-        numberPhone: saved.numberPhone || "",
-        gender: saved.gender || "",
-        avatar: saved.avatarUser || "",
-      });
-    }
-  }, []);
-  const onChangeLogo = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.size > 100 * 1024) {
-        alert("Ảnh quá lớn, vui lòng chọn ảnh nhỏ hơn 100KB!");
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setSelectLogoItemSrc(ev.target.result);
-        const newUser = {
-          ...storedUsers,
-          avatar: ev.target.result,
+  }, [updateInfo, storedUsers, updateUserStorage]);
+
+  // Đổi logo từ máy tính
+  const onChangeLogo = useCallback(
+    (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        if (file.size > 100 * 1024) {
+          alert("Ảnh quá lớn, vui lòng chọn ảnh nhỏ hơn 100KB!");
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          setSelectLogoItemSrc(ev.target.result);
+          const newUser = {
+            ...storedUsers,
+            avatar: ev.target.result,
+          };
+          updateUserStorage(newUser);
+          setUpdateInfo((prev) => ({ ...prev, avatar: ev.target.result }));
         };
-        localStorage.setItem("userActive", JSON.stringify(newUser));
-        localStorage.setItem(
-          "listUserAccount",
-          JSON.stringify(
-            listAccount.map((el) =>
-              el.email === storedUsers.email ? newUser : el
-            )
-          )
-        );
-      };
-      reader.readAsDataURL(file);
-      alert("Cập nhật ảnh đại diện thành công !!");
-      window.dispatchEvent(new Event("storage")); //Gọi sự kiện storage để các component khác nhận biết được sự thay đổi
-    }
-  };
+        reader.readAsDataURL(file);
+        alert("Cập nhật ảnh đại diện thành công !!");
+      }
+    },
+    [storedUsers, updateUserStorage]
+  );
+
+  // Khởi tạo dữ liệu user
+  useEffect(() => {
+    const dataUsers = JSON.parse(localStorage.getItem("userActive")) || {};
+    setStoredUsers(dataUsers);
+    setUpdateInfo({
+      email: dataUsers.email || "",
+      username: dataUsers.username || "",
+      numberPhone: dataUsers.numberPhone || "",
+      gender: dataUsers.gender || "",
+      avatar: dataUsers.avatarUser || "",
+    });
+  }, []);
 
   return (
     <div className={cx("Profile-Wrapper")}>

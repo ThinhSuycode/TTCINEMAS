@@ -9,16 +9,11 @@ const cx = classNames.bind(styles);
 function Favorite() {
   const userActiveRaw = localStorage.getItem("userActive");
   const userActive = userActiveRaw ? JSON.parse(userActiveRaw) : {};
-  const listAccount = localStorage.getItem("listUserAccount")
-    ? JSON.parse(localStorage.getItem("listUserAccount"))
-    : [];
 
   const [favoriteList, setFavoriteList] = useState({
     listMovie: [],
     listActor: [],
   });
-  console.log(favoriteList.listMovie);
-
   const [activeTab, setActiveTab] = useState("movie");
   useEffect(() => {
     setFavoriteList({
@@ -31,7 +26,6 @@ function Favorite() {
     <div className={cx("Favorite-Wrapper")}>
       <div className={cx("Favorite-inner")}>
         <h3 className={cx("Favorite__heading")}>Yêu thích</h3>
-
         <div className={cx("Favorite-act")}>
           <Button
             onClick={() => setActiveTab("movie")}

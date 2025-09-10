@@ -1,6 +1,5 @@
 import classNames from "classnames/bind";
 import styles from "./ListGenres.module.scss";
-import PropType from "prop-types";
 import ListMovieContent from "../../ListMovieContent/ListMovieContent";
 import { useEffect, useState } from "react";
 const cx = classNames.bind(styles);

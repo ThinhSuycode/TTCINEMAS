@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import styles from "./ListMovieContent.module.scss";
 import PropTypes from "prop-types";
 import { config } from "../../config";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button";

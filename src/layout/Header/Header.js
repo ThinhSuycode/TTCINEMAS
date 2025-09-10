@@ -7,13 +7,11 @@ import avatarNull from "../../assets/icon/vietnam.jpg";
 import imgLogin from "../../assets/images/TTmovieLogin.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBackspace,
   faBackward,
   faCaretDown,
   faClose,
   faHeart,
   faPlus,
-  faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 import Menu from "../../components/Popper/Menu";
 import {

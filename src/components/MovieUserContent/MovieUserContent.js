@@ -4,11 +4,7 @@ import PropTypes from "prop-types";
 import { config } from "../../config";
 import { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAnglesLeft,
-  faAnglesRight,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
@@ -17,18 +13,13 @@ const cx = classNames.bind(styles);
 function MovieUserContent({
   data = [],
   title,
-  page,
   large,
-  showPaginationPage,
   showButton,
   favorite,
   playlist,
   selectIdx,
 }) {
   const [activeMovie, setActiveMovie] = useState({});
-  const [pageCount, setPageCount] = useState(1);
-  const [pageTotal, setPageTotal] = useState(0);
-  const [pageRange, setPageRange] = useState([1, 9]);
   const [dataUpdate, setDataUpdate] = useState([]);
   const [userActive, setUserActive] = useState(
     () => JSON.parse(localStorage.getItem("userActive")) || {}
@@ -94,10 +85,6 @@ function MovieUserContent({
     }
   }, [favorite, playlist, selectIdx]);
 
-  useEffect(() => {
-    setPageTotal(page || 0);
-  }, [page]);
-
   // Lưu phim đang chọn vào localStorage
   useEffect(() => {
     if (Object.keys(activeMovie).length > 0) {
@@ -145,11 +132,6 @@ function MovieUserContent({
     const listNew = { title, data };
     localStorage.setItem("viewGenresAll", JSON.stringify(listNew));
   }, [title, data]);
-
-  // Gửi sự kiện khi đổi trang
-  useEffect(() => {
-    window.dispatchEvent(new CustomEvent("pageChange", { detail: pageCount }));
-  }, [pageCount]);
 
   return (
     <div className={cx("MovieUserContent-Wrapper")}>

@@ -2,8 +2,6 @@ import styles from "./Button.module.scss";
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 const cx = classNames.bind(styles);
 
 function Button({

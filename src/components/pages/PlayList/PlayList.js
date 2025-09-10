@@ -25,11 +25,14 @@ function PlayList() {
   const [statusPlayList, setStatusPlayList] = useState("");
   const [selectMovie, setSelectMovie] = useState(null);
 
-  const onHandleEdit = useCallback((idx) => {
-    setStatusPlayList("edit");
-    setSelectIdx(idx);
-    setInputPlayListEdit(userActive.storedPlayList[idx].name);
-  });
+  const onHandleEdit = useCallback(
+    (idx) => {
+      setStatusPlayList("edit");
+      setSelectIdx(idx);
+      setInputPlayListEdit(userActive.storedPlayList[idx].name);
+    },
+    [userActive]
+  );
   //Delay kết quả khi click vào danh mục
 
   useEffect(() => {
@@ -42,9 +45,9 @@ function PlayList() {
     }
   }, [statusPlayList, selectIdx, userActive.storedPlayList]);
 
-  const onChangeInput = (e) => {
+  const onChangeInput = useCallback((e) => {
     setInputPlayListAdd(e);
-  };
+  }, []);
   useEffect(() => {
     const handleStorage = () => {
       const updatedUserActive =
@@ -63,13 +66,12 @@ function PlayList() {
     }
   }, [statusPlayList]);
 
-  const onHandleClose = () => {
+  const onHandleClose = useCallback(() => {
     setInputPlayListAdd("");
     setStatusPlayList("");
-  };
-
+  }, []);
   // Thêm mới playlist, mỗi playlist là object { name, movies: [] }
-  const onHandleAdd = () => {
+  const onHandleAdd = useCallback(() => {
     if (!inputPlayListAdd.trim()) {
       alert("Tên danh sách không được để trống!");
       return;
@@ -104,10 +106,9 @@ function PlayList() {
     setUserActive(newPlayList);
     alert("Thêm thành công !!");
     onHandleClose();
-  };
-
+  }, [inputPlayListAdd, userActive, listAccount, onHandleClose]);
   // Sửa tên playlist
-  const onHandleSave = () => {
+  const onHandleSave = useCallback(() => {
     if (!inputPlayListEdit.trim()) {
       alert("Tên danh sách không được để trống!");
       return;
@@ -142,7 +143,7 @@ function PlayList() {
       setInputPlayListEdit(userActive.storedPlayList[selectIdx].name);
       return;
     }
-  };
+  }, [inputPlayListEdit, userActive, selectIdx, listAccount, onHandleClose]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -156,7 +157,8 @@ function PlayList() {
   }, [userActive]);
 
   // Xoá playlist
-  const onHandleDelete = () => {
+
+  const onHandleDelete = useCallback(() => {
     const updatedPlayList = userActive.storedPlayList.filter(
       (_, idx) => idx !== selectIdx
     );
@@ -177,7 +179,7 @@ function PlayList() {
     window.dispatchEvent(new Event("deletePlayList")); // Gửi sự kiện storage để các tab khác nhận biết thay đổi
     alert("Xoá thành công!!");
     onHandleClose();
-  };
+  }, [userActive, selectIdx, listAccount, onHandleClose]);
 
   return (
     <div className={cx("PlayList-Wrapper")}>

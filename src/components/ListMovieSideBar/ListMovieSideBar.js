@@ -1,9 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./ListMovieSideBar.module.scss";
-import PropType, { object, objectOf } from "prop-types";
-import fullStar from "../../assets/icon/star-on.png";
-import emptyStar from "../../assets/icon/star-off.png";
-import halfStar from "../../assets/icon/half-star.webp";
+import PropType from "prop-types";
 import { useEffect, useState } from "react";
 import { config } from "../../config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -1,7 +1,6 @@
 import style from "./PageOnly.module.scss";
 import classNames from "classnames/bind";
 import { Header, Footer } from "../../layout";
-import { useState, useEffect } from "react";
 
 const cx = classNames.bind(style);
 

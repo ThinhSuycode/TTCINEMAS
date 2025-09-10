@@ -16,7 +16,6 @@ function Footer() {
   return (
     <div className={cx("footer")}>
       <div className={cx("footer-inner-top")}>
-        {/* Left */}
         <div className={cx("footer-inner-left")}>
           <div className={cx("footer-inner-left__info")}>
             <h4 className={cx("footer-inner__title")}>CÔNG TY HÃNG PHIM VN</h4>
@@ -26,7 +25,6 @@ function Footer() {
             <p className={cx("footer-inner__phoneAct")}>HOTLINE: 0869114177</p>
           </div>
 
-          {/* Social */}
           <div className={cx("footer-inner-left__social")}>
             <h4 className={cx("footer-inner__title")}>MẠNG XÃ HỘI:</h4>
             <div className={cx("footer-inner-social-list")}>
@@ -34,7 +32,6 @@ function Footer() {
                 href="https://www.facebook.com/thinhcutek5?locale=vi_VN"
                 className={cx("footer-inner-social-item")}
                 target="_blank"
-                rel="noreferrer"
               >
                 <FontAwesomeIcon icon={faFacebook} />
               </a>
@@ -42,7 +39,6 @@ function Footer() {
                 href="#"
                 className={cx("footer-inner-social-item")}
                 target="_blank"
-                rel="noreferrer"
               >
                 <FontAwesomeIcon icon={faInstagram} />
               </a>
@@ -58,10 +54,8 @@ function Footer() {
           </div>
         </div>
 
-        {/* Right */}
         <div className={cx("footer-inner-right")}>
           <div className={cx("footer-inner-right-list")}>
-            {/* Column 1 */}
             <div className={cx("footer-inner-right-item")}>
               <div className={cx("footer-inner-item-box")}>
                 <h4 className={cx("footer-inner__title")}>SẢN PHẨM</h4>
@@ -85,7 +79,6 @@ function Footer() {
               </div>
             </div>
 
-            {/* Column 2 */}
             <div className={cx("footer-inner-right-item")}>
               <div className={cx("footer-inner-item-box")}>
                 <h4 className={cx("footer-inner__title")}>CHÍNH SÁCH</h4>
@@ -111,7 +104,6 @@ function Footer() {
               </div>
             </div>
 
-            {/* Column 3 */}
             <div className={cx("footer-inner-right-item")}>
               <div className={cx("footer-inner-item-box")}>
                 <h4 className={cx("footer-inner__title")}>ƯU ĐÃI</h4>
@@ -125,7 +117,6 @@ function Footer() {
         </div>
       </div>
 
-      {/* Bottom */}
       <div className={cx("footer-inner-bottom")}>
         <p>No Coppy @2025. Bản quyền của TTCINEMAS</p>
       </div>

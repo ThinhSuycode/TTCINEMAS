@@ -1,6 +1,5 @@
 import classNames from "classnames/bind";
 import styles from "./WalletTotal.module.scss";
-import Button from "../../Button";
 import { useEffect, useState, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import bank1 from "../../../assets/icon/bank.webp";
@@ -11,7 +10,6 @@ import mobi from "../../../assets/icon/mobiphone.png";
 import vina from "../../../assets/icon/vinaphone.png";
 
 import {
-  faArrowCircleRight,
   faArrowRight,
   faCheckCircle,
   faCoins,
@@ -21,57 +19,30 @@ import {
 
 const cx = classNames.bind(styles);
 const dataBank = [
-  {
-    title: "Gói 100K",
-    price: "100.000",
-    qr: 100000,
-  },
-  {
-    title: "Gói 200K",
-    price: "200.000",
-    qr: 200000,
-  },
-  {
-    title: "Gói 500K",
-    price: "500.000",
-    qr: 500000,
-  },
-  {
-    title: "Gói 1M",
-    price: "1.000.000",
-    qr: 1000000,
-  },
+  { title: "Gói 100K", price: "100.000", qr: 100000 },
+  { title: "Gói 200K", price: "200.000", qr: 200000 },
+  { title: "Gói 500K", price: "500.000", qr: 500000 },
+  { title: "Gói 1M", price: "1.000.000", qr: 1000000 },
 ];
 const cardPhone = [
-  {
-    img: viettel,
-    desc: "Viettel",
-  },
-  {
-    img: mobi,
-    desc: "Mobiphone",
-  },
-  {
-    img: vina,
-    desc: "Vinaphone",
-  },
+  { img: viettel, desc: "Viettel" },
+  { img: mobi, desc: "Mobiphone" },
+  { img: vina, desc: "Vinaphone" },
 ];
 
 function WalletTotal() {
   const [userActive, setUserActive] = useState(
-    JSON.parse(localStorage.getItem("userActive")) || {}
+    () => JSON.parse(localStorage.getItem("userActive")) || {}
   );
-  const [listAccount, setListAccount] = useState(
-    JSON.parse(localStorage.getItem("listUserAccount")) || []
-  );
-  // const [checkActive,setCheckActive]=useState(false);
   const [selectIdx, setSelectIdx] = useState(null);
   const [activeDescBank, setActiveDescBank] = useState({});
   const [checkActive, setCheckActive] = useState(false);
   const [statusBank, setStatusBank] = useState("");
   const [selectIdxCard, setSelectIdxCard] = useState(0);
-  const [contentQR, setContentQR] = useState(Math.floor(Math.random() * 100));
-  const [countdown, setCountdown] = useState(60); // Thời gian đếm ngược 60s
+  const [contentQR, setContentQR] = useState(() =>
+    Math.floor(Math.random() * 100)
+  );
+  const [countdown, setCountdown] = useState(60);
 
   const onHandleForm = useCallback(() => {
     alert(
@@ -79,30 +50,31 @@ function WalletTotal() {
     );
     window.location.href = "/";
   }, []);
+
+  // Đếm ngược và đổi mã QR sau 60s
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev === 1) {
-          setContentQR(Math.floor(Math.random() * 100)); // Đổi mã QR mới
-          return 60; // Reset lại 60s
+          setContentQR(Math.floor(Math.random() * 100));
+          return 60;
         }
         return prev - 1;
       });
-    }, 1000); // Mỗi giây
-
+    }, 1000);
     return () => clearInterval(timer);
   }, []);
-  //Cập nhật dữ liệu khi thay đổi dữ liệu userActive
+
+  // Cập nhật userActive khi localStorage thay đổi
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userActive")) || {};
     setUserActive(user);
   }, []);
 
-  console.log(contentQR);
-  //Active gói bank
+  // Chọn gói bank
   const onHandleBank = useCallback(
     (idx) => {
-      if (checkActive === false) {
+      if (!checkActive) {
         setSelectIdx(idx);
         setActiveDescBank(dataBank[idx]);
       }
@@ -110,15 +82,14 @@ function WalletTotal() {
     [checkActive]
   );
 
+  // Kiểm tra đã chọn đủ thông tin để active thanh toán
   useEffect(() => {
-    if (Object.keys(activeDescBank).length > 0 && statusBank.trim() !== "") {
-      setCheckActive(true);
-    } else {
-      setCheckActive(false);
-    }
+    setCheckActive(
+      Object.keys(activeDescBank).length > 0 && statusBank.trim() !== ""
+    );
   }, [activeDescBank, statusBank]);
 
-  //Thanh toán qua thẻ điện thoại
+  // Hiển thị phương thức thanh toán
   const showPayment = useCallback(
     (statusBank) => {
       if (statusBank === "cardPhone") {
@@ -126,21 +97,18 @@ function WalletTotal() {
           <div className={cx("payment-phoneCard")}>
             <div className={cx("title")}>Chọn nhà mạng</div>
             <div className={cx("list-method")}>
-              {cardPhone &&
-                cardPhone.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className={cx("item", {
-                      activeItem: idx === selectIdxCard,
-                    })}
-                    onClick={() => setSelectIdxCard(idx)}
-                  >
-                    <div className={cx("item-top")}>
-                      <img src={item.img} alt="" />
-                    </div>
-                    <div className={cx("item-bottom")}>{item.desc}</div>
+              {cardPhone.map((item, idx) => (
+                <div
+                  key={idx}
+                  className={cx("item", { activeItem: idx === selectIdxCard })}
+                  onClick={() => setSelectIdxCard(idx)}
+                >
+                  <div className={cx("item-top")}>
+                    <img src={item.img} alt="" />
                   </div>
-                ))}
+                  <div className={cx("item-bottom")}>{item.desc}</div>
+                </div>
+              ))}
             </div>
             <div className={cx("form-input")}>
               <div className={cx("input-item")}>
@@ -153,7 +121,8 @@ function WalletTotal() {
             <button className={cx("active-form")}>Gửi</button>
           </div>
         );
-      } else if (statusBank === "bank") {
+      }
+      if (statusBank === "bank") {
         return (
           <div className={cx("payment-bank")}>
             <div className={cx("bank-left")}>
@@ -200,18 +169,12 @@ function WalletTotal() {
             </div>
           </div>
         );
-      } else {
-        return <></>;
       }
-
-      // else {
-      //   alert("Vui lòng chọn mệnh giá để thực hiện!! ");
-      //   return;
-      // }
+      return null;
     },
-    [statusBank, selectIdxCard, contentQR]
+    [statusBank, selectIdxCard, contentQR, activeDescBank]
   );
-  console.log(activeDescBank);
+
   return (
     <div className={cx("WalletTotal-Wrapper")}>
       <div className={cx("WalletTotal-inner")}>
@@ -244,7 +207,6 @@ function WalletTotal() {
               </div>
               <div className={cx("history-payment")}>
                 <span>Xem lịch sử nạp </span>
-
                 <span>
                   <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon>
                 </span>
@@ -267,7 +229,6 @@ function WalletTotal() {
                   >
                     <p className={cx("title")}>{item.title}</p>
                     <p>{item.price} VNĐ</p>
-
                     <div
                       className={cx("check-price", {
                         activeColor: idx === selectIdx,
@@ -281,7 +242,7 @@ function WalletTotal() {
                 <div>Không có dữ liệu!!</div>
               )}
             </div>
-            {Object.keys(activeDescBank).length > 0 ? (
+            {Object.keys(activeDescBank).length > 0 && (
               <div className={cx("desc")}>
                 Bạn đã thực hiện chọn {activeDescBank.title}{" "}
                 <span>
@@ -289,8 +250,6 @@ function WalletTotal() {
                 </span>{" "}
                 với mệnh giá {activeDescBank.price} VNĐ
               </div>
-            ) : (
-              <div></div>
             )}
 
             <div className={cx("payment-heading")}>
@@ -333,7 +292,7 @@ function WalletTotal() {
                 <button onClick={() => setStatusBank("cardPhone")}>Chọn</button>
               </div>
             </div>
-            {statusBank && Object.keys(activeDescBank).length > 0 ? (
+            {statusBank && Object.keys(activeDescBank).length > 0 && (
               <div className={cx("form-payment", { show: statusBank })}>
                 <div className={cx("payment-inner")}>
                   {statusBank === "cardPhone" && (
@@ -359,12 +318,9 @@ function WalletTotal() {
                       </div>
                     </div>
                   )}
-
                   {showPayment(statusBank)}
                 </div>
               </div>
-            ) : (
-              <div></div>
             )}
           </div>
         </div>

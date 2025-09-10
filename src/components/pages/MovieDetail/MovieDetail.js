@@ -10,7 +10,6 @@ import {
   faShare,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
-
 import ListMovie from "../../ListMovie/ListMovie";
 import { MovieListProvider } from "../../../context";
 import MovieVideo from "../../MovieVideo/MovieVideo";
@@ -81,11 +80,11 @@ function MovieDetail() {
     setInputPlayListAdd("");
     setActiveAddPlayList(false);
     alert("Đã thêm danh sách mới!");
-  });
+  }, [inputPlayListAdd, stored, listAccount]);
   const onHandleClose = useCallback(() => {
     setActiveAddPlayList(false);
     setInputPlayListAdd("");
-  });
+  }, []);
 
   useEffect(() => {
     const updatedStored = JSON.parse(localStorage.getItem("userActive")) || {};
@@ -109,7 +108,7 @@ function MovieDetail() {
   //Xử lý hàm thêm danh sách
   const onHandlePlayList = useCallback(() => {
     setActivePlayList(true);
-  });
+  }, []);
 
   useEffect(() => {
     if (selectPlayListIdx !== null && selectMovie.id) {

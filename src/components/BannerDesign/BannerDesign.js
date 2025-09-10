@@ -18,11 +18,8 @@ import banner3Heading from "../../assets/icon/banner3heading.webp";
 import banner4Heading from "../../assets/icon/banner4heading.webp";
 import banner5Heading from "../../assets/icon/banner5heading.webp";
 import banner6Heading from "../../assets/icon/banner6Heading.webp";
-import Tippy from "@tippyjs/react/headless";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
-import { faHeart, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { config } from "../../config";
 
 const cx = classNames.bind(styles);
