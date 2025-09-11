@@ -36,7 +36,6 @@ function MovieDetail() {
   );
   const [selectPlayListIdx, setSelectPlayListIdx] = useState(null);
   const [activePlayList, setActivePlayList] = useState(false);
-  console.log(selectPlayListIdx);
   const exists = (stored.storedMovies || []).some(
     (m) => m.id === selectedDetail.id
   );
@@ -107,6 +106,11 @@ function MovieDetail() {
   }, []);
   //Xử lý hàm thêm danh sách
   const onHandlePlayList = useCallback(() => {
+    if (!stored.email) {
+      alert("Vui lòng đăng nhập để sử dụng tính năng này!");
+      window.location.href = "/";
+      return;
+    }
     setActivePlayList(true);
   }, []);
 
@@ -227,8 +231,7 @@ function MovieDetail() {
         method: "GET",
         headers: {
           accept: "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwZmFjZDNiOWY0NTJlMjE1ZGY5NzRhMjkyYzQxMmY5MSIsIm5iZiI6MTc1NDczMTQ4OS42Mywic3ViIjoiNjg5NzEzZTFkMDg3NThjYTBlMjY3NzIzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.cEm5zG-WP9ikzUMhq08tUt0XuafbfJOZUozbCYnQxas",
+          Authorization: `Bearer ${process.env.REACT_APP_KEYS}`,
         },
       };
       try {
