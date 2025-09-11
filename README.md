@@ -21,6 +21,12 @@ Chức năng đăng nhập/đăng ký, tạo tài khoản.
 Tích hợp thêm API để lấy dữ liệu phim tự động.
 Link thử nghiệm: https://ttcinemas.vercel.app/
 
-<img width="1920" height="1029" alt="image" src="https://github.com/user-attachments/assets/15e40e2d-97ba-4406-9785-f9c3bad8c2d0" />
+<img width="1917" height="914" alt="image" src="https://github.com/user-attachments/assets/ed3a7007-87a4-4885-9153-cf530df2e148" />
+
+<img width="1901" height="987" alt="image" src="https://github.com/user-attachments/assets/09ac74cb-d4bf-4a8a-83db-9e05e0c6bbbb" />
+
+<img width="1897" height="974" alt="image" src="https://github.com/user-attachments/assets/f9998582-451b-4b37-8c85-a83e8c6a5d2f" />
+
+
 
 ©️ No Coppy @2025 – Bản quyền thuộc về TTCINEMAS 🎥🍿 - Sở hữu: Trần Quý Thịnh
