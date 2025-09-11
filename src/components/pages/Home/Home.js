@@ -71,7 +71,7 @@ function Home() {
     <MovieListProvider>
       <div className={cx("Home-Wrapper")}>
         <div className={cx("Home-inner")}>
-          {resultSearch.length > 0 ? (
+          {Array.isArray(resultSearch) && resultSearch.length > 0 > 0 ? (
             <ListMovie title="Kết quả tìm kiếm" data={resultSearch} />
           ) : (
             <div className={cx("Home-content")}>
