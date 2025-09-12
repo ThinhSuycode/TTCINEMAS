@@ -103,7 +103,7 @@ function MovieDetail() {
     const handleClickOutside = (e) => {
       if (
         !e.target.closest(`.${cx("icon-bookMark")}`) &&
-        !e.target.closest("PlayList-modal")
+        !e.target.closest(".PlayList-modal")
       ) {
         setActivePlayList(false);
       }
