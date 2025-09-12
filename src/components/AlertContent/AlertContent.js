@@ -7,27 +7,20 @@ import { faCheckCircle, faClose } from "@fortawesome/free-solid-svg-icons";
 const cx = classNames.bind(styles);
 
 function AlertContent({ alertList, setAlertList }) {
-  const [hidingIds, setHidingIds] = useState([]); // lưu id đang ẩn
-
+  const [hidingIds, setHidingIds] = useState([]);
   const handleClose = (id) => {
-    // thêm vào danh sách ẩn để CSS chạy animation
     setHidingIds((prev) => [...prev, id]);
-
-    // Sau animation (0.3s) thì xoá hẳn khỏi danh sách
     setTimeout(() => {
       setAlertList((prev) => prev.filter((a) => a.id !== id));
       setHidingIds((prev) => prev.filter((h) => h !== id));
-    }, 300); // match với CSS transition
+    }, 750);
   };
 
   useEffect(() => {
-    // Mỗi alert mới thêm vào → set timer riêng cho nó
     alertList.forEach((alert) => {
       const timer = setTimeout(() => {
         handleClose(alert.id);
       }, 3000);
-
-      // cleanup khi unmount
       return () => clearTimeout(timer);
     });
   }, [alertList]);

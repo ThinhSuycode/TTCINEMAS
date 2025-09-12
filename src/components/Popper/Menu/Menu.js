@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import styles from "./Menu.module.scss";
 import Tippy from "@tippyjs/react/headless";
 import Wrapper from "../Wrapper";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import MenuItem from "./MenuItem";
 import PropsTypes from "prop-types";
 
@@ -19,11 +19,12 @@ const cx = classNames.bind(styles);
 
 function Menu({ children, menuData = [] }) {
   const [itemMenu, setItemMenu] = useState(null);
-  const onHandleLogout = () => {
+
+  const onHandleLogout = useCallback(() => {
     localStorage.setItem("userActive", JSON.stringify({}));
     alert("Đăng xuất thành công !!");
     window.location.href = "/";
-  };
+  }, []);
   useEffect(() => {
     if (itemMenu !== null) {
       localStorage.setItem("checkUserIdx", JSON.stringify(itemMenu));

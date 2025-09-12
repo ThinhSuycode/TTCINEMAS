@@ -13,6 +13,7 @@ import {
 import ListMovie from "../../ListMovie/ListMovie";
 import { MovieListProvider } from "../../../context";
 import MovieVideo from "../../MovieVideo/MovieVideo";
+import { Alert } from "../..";
 
 const cx = classNames.bind(styles);
 
@@ -39,6 +40,14 @@ function MovieDetail() {
   const exists = (stored.storedMovies || []).some(
     (m) => m.id === selectedDetail.id
   );
+  const [alerts, setAlerts] = useState([]);
+
+  //Thực hiện push alerts
+
+  const pushAlert = (msg) => {
+    const id = Math.floor(Math.random() * 10000);
+    setAlerts((prev) => [...prev, { id, message: msg }]);
+  };
 
   const onChangeInput = useCallback((e) => {
     setInputPlayListAdd(e);
@@ -48,17 +57,17 @@ function MovieDetail() {
   }, []);
   const onHandleAdd = useCallback(() => {
     if (!inputPlayListAdd.trim()) {
-      alert("Vui lòng nhập tên danh sách!");
+      pushAlert("Vui lòng nhập tên danh sách!");
       return;
     }
     if ((stored.storedPlayList || []).length >= 5) {
-      alert("Bạn chỉ được tạo tối đa 5 danh sách!");
+      pushAlert("Bạn chỉ được tạo tối đa 5 danh sách!");
       return;
     }
     if (
       stored.storedPlayList?.some((pl) => pl.name === inputPlayListAdd.trim())
     ) {
-      alert("Tên danh sách đã tồn tại. Vui lòng chọn tên khác!");
+      pushAlert("Tên danh sách đã tồn tại. Vui lòng chọn tên khác!");
       return;
     }
     const newPlayList = {
@@ -78,7 +87,7 @@ function MovieDetail() {
     localStorage.setItem("listUserAccount", JSON.stringify(newListAccount));
     setInputPlayListAdd("");
     setActiveAddPlayList(false);
-    alert("Đã thêm danh sách mới!");
+    pushAlert("Đã thêm danh sách mới!");
   }, [inputPlayListAdd, stored, listAccount]);
   const onHandleClose = useCallback(() => {
     setActiveAddPlayList(false);
@@ -107,7 +116,7 @@ function MovieDetail() {
   //Xử lý hàm thêm danh sách
   const onHandlePlayList = useCallback(() => {
     if (!stored.email) {
-      alert("Vui lòng đăng nhập để sử dụng tính năng này!");
+      pushAlert("Vui lòng đăng nhập để sử dụng tính năng này!");
       window.location.href = "/";
       return;
     }
@@ -132,11 +141,11 @@ function MovieDetail() {
         );
         setListAccount(newListAccount);
         localStorage.setItem("listUserAccount", JSON.stringify(newListAccount));
-        alert(`Đã thêm vào danh sách ${playlist.name}`);
+        pushAlert(`Đã thêm vào danh sách ${playlist.name}`);
         setSelectPlayListIdx(null);
         setActivePlayList(false);
       } else {
-        alert("Phim này đã có trong danh sách của bạn.");
+        pushAlert("Phim này đã có trong danh sách của bạn.");
         setSelectPlayListIdx(null);
         setActivePlayList(false);
       }
@@ -178,7 +187,7 @@ function MovieDetail() {
 
     if (selectMovie.id) fetchMovieDetail(selectMovie.id);
     else {
-      alert("Lỗi dữ liệu. Vui lòng thử lại!!");
+      pushAlert("Lỗi dữ liệu. Vui lòng thử lại!!");
       window.location.href = "/";
     }
   }, [selectMovie.id]);
@@ -186,7 +195,7 @@ function MovieDetail() {
   // Xử lý thêm vào danh sách yêu thích
   const onHandleHeart = useCallback(() => {
     if (!stored.email) {
-      alert("Vui lòng đăng nhập để sử dụng tính năng này!");
+      pushAlert("Vui lòng đăng nhập để sử dụng tính năng này!");
       window.location.href = "/";
       return;
     }
@@ -205,13 +214,12 @@ function MovieDetail() {
         )
       );
       setCheckHeart(true);
-      alert("Đã thêm vào phim yêu thích!");
+      pushAlert("Đã thêm vào phim yêu thích!");
     } else {
-      alert("Phim này đã có trong danh sách yêu thích.");
+      pushAlert("Phim này đã có trong danh sách yêu thích.");
     }
   }, [stored, selectedDetail, exists, listAccount]);
 
-  // Lắng nghe sự kiện đổi phim từ Banner
   useEffect(() => {
     const changeMovieIdBanner = (e) => {
       const target = e.detail;
@@ -251,6 +259,7 @@ function MovieDetail() {
 
   return (
     <MovieListProvider>
+      <Alert alertList={alerts} setAlertList={setAlerts}></Alert>
       <div className={cx("MovieDetail-Wrapper")}>
         <div className={cx("MovieDetail-inner")}>
           {activeAddPlayList && (

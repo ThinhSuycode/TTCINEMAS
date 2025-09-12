@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import MovieUserContent from "../../MovieUserContent/MovieUserContent";
+import { Alert } from "../..";
 const cx = classNames.bind(styles);
 function PlayList() {
   const refInput = useRef();
@@ -27,6 +28,15 @@ function PlayList() {
   const listAccount = useMemo(() => {
     return JSON.parse(localStorage.getItem("listUserAccount")) || [];
   }, []);
+  const [alerts, setAlerts] = useState([]);
+
+  //Thực hiện push alerts
+
+  const pushAlert = (msg) => {
+    const id = Math.floor(Math.random() * 10000);
+    setAlerts((prev) => [...prev, { id, message: msg }]);
+  };
+
   const onHandleEdit = useCallback(
     (idx) => {
       setStatusPlayList("edit");
@@ -75,7 +85,7 @@ function PlayList() {
   // Thêm mới playlist, mỗi playlist là object { name, movies: [] }
   const onHandleAdd = useCallback(() => {
     if (!inputPlayListAdd.trim()) {
-      alert("Tên danh sách không được để trống!");
+      pushAlert("Tên danh sách không được để trống!");
       return;
     }
     if (
@@ -83,7 +93,7 @@ function PlayList() {
         .map((item) => item.name)
         .includes(inputPlayListAdd.trim())
     ) {
-      alert("Đã trùng tên trong danh sách lưu của bạn!!");
+      pushAlert("Đã trùng tên trong danh sách lưu của bạn!!");
       setInputPlayListAdd("");
       return;
     }
@@ -106,13 +116,13 @@ function PlayList() {
       )
     );
     setUserActive(newPlayList);
-    alert("Thêm thành công !!");
+    pushAlert("Thêm thành công !!");
     onHandleClose();
   }, [inputPlayListAdd, userActive, listAccount, onHandleClose]);
   // Sửa tên playlist
   const onHandleSave = useCallback(() => {
     if (!inputPlayListEdit.trim()) {
-      alert("Tên danh sách không được để trống!");
+      pushAlert("Tên danh sách không được để trống!");
       return;
     }
 
@@ -138,10 +148,10 @@ function PlayList() {
         )
       );
       setUserActive(updatedUserActive);
-      alert("Sửa thành công!!");
+      pushAlert("Sửa thành công!!");
       onHandleClose();
     } else {
-      alert("Đã trùng tên trong danh sách lưu của bạn!!");
+      pushAlert("Đã trùng tên trong danh sách lưu của bạn!!");
       setInputPlayListEdit(userActive.storedPlayList[selectIdx].name);
       return;
     }
@@ -168,6 +178,7 @@ function PlayList() {
       storedPlayList: updatedPlayList,
     };
     localStorage.setItem("userActive", JSON.stringify(updatedUserActive));
+
     localStorage.setItem(
       "listUserAccount",
       JSON.stringify(
@@ -178,12 +189,13 @@ function PlayList() {
     );
     setUserActive(updatedUserActive);
     window.dispatchEvent(new Event("deletePlayList")); // Gửi sự kiện storage để các tab khác nhận biết thay đổi
-    alert("Xoá thành công!!");
+    pushAlert("Xoá thành công!!");
     onHandleClose();
   }, [userActive, selectIdx, listAccount, onHandleClose]);
 
   return (
     <div className={cx("PlayList-Wrapper")}>
+      <Alert alertList={alerts} setAlertList={setAlerts}></Alert>
       {statusPlayList === "add" ? (
         <div className={cx("include-box")}>
           <div className={cx("modal-content")}>

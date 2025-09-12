@@ -1,12 +1,10 @@
 .alertListContent {
   position: fixed;
   right: 20px;
-  // background-color: white;
-
   min-width: 320px;
   z-index: 100;
+  max-height: 80%;
   bottom: 100px;
-  animation: show 0.85s ease-in-out;
   .alert-item {
     position: relative;
     padding: 15px 10px;
@@ -21,8 +19,8 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 10px;
+    animation: show 1s ease-in-out;
     border: none;
-
     overflow: hidden;
 
     .alert-left {
@@ -65,7 +63,7 @@
     }
   }
   .hiddenAlert {
-    animation: close 1s ease-in-out;
+    animation: close 0.75s ease-in-out;
   }
   .showAlert {
     animation: show 1s ease-in-out;

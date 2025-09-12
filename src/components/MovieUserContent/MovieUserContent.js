@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { Alert } from "..";
 
 const cx = classNames.bind(styles);
 
@@ -30,6 +31,14 @@ function MovieUserContent({
   const [delayedData, setDelayedData] = useState([]);
 
   const [loading, setLoading] = useState(false);
+  const [alerts, setAlerts] = useState([]);
+
+  //Thực hiện push alerts
+
+  const pushAlert = (msg) => {
+    const id = Math.floor(Math.random() * 10000);
+    setAlerts((prev) => [...prev, { id, message: msg }]);
+  };
 
   // Delay 1s khi dataUpdate thay đổi và show loading
   useEffect(() => {
@@ -102,6 +111,7 @@ function MovieUserContent({
         newUpdate = { ...userActive, storedMovies: newData };
         setUserActive(newUpdate);
         setDataUpdate(newData);
+        pushAlert("Đã xoá khỏi danh sách phim yêu thích !!");
       } else if (playlist) {
         const updatedPlayList = userActive.storedPlayList.map((pl, i) =>
           i === selectIdx
@@ -112,6 +122,7 @@ function MovieUserContent({
         newUpdate = { ...userActive, storedPlayList: updatedPlayList };
         setUserActive(newUpdate);
         setDataUpdate(newData);
+        pushAlert("Đã xoá phim khỏi danh sách !!");
       } else {
         newData = dataUpdate.filter((_, i) => idx !== i);
         setDataUpdate(newData);
@@ -135,6 +146,7 @@ function MovieUserContent({
 
   return (
     <div className={cx("MovieUserContent-Wrapper")}>
+      <Alert setAlertList={setAlerts} alertList={alerts}></Alert>
       {showButton && <div className={cx("border-top")}></div>}
       <div className={cx("MovieUserContent-inner")}>
         {title && (

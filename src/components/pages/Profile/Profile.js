@@ -13,6 +13,7 @@ import logoAnime1 from "../../../assets/logo/logoAnime1.jpg";
 import logoAnime2 from "../../../assets/logo/logoAnime2.jpg";
 import logoMeme1 from "../../../assets/logo/logoMeme1.jpg";
 import logoMeme2 from "../../../assets/logo/logoMeme2.jpg";
+import { Alert } from "../..";
 
 const cx = classNames.bind(styles);
 
@@ -59,6 +60,14 @@ function Profile() {
     avatar: storedUsers.avatarUser || "",
   });
   const [activeChooseLogo, setActiveChooseLogo] = useState(false);
+  const [alerts, setAlerts] = useState([]);
+
+  //Thực hiện push alerts
+
+  const pushAlert = (msg) => {
+    const id = Math.floor(Math.random() * 10000);
+    setAlerts((prev) => [...prev, { id, message: msg }]);
+  };
 
   // Cập nhật localStorage
   const updateUserStorage = useCallback(
@@ -89,7 +98,7 @@ function Profile() {
       avatar: selectLogoItemSrc,
     };
     updateUserStorage(newUpdate);
-    alert("Cập nhật thành công !!");
+    pushAlert("Cập nhật thành công !!");
     setActiveChooseLogo(false);
   }, [selectLogoItemSrc, storedUsers, updateUserStorage]);
 
@@ -102,15 +111,15 @@ function Profile() {
   // Cập nhật thông tin user
   const onHandleUpdate = useCallback(() => {
     if (!updateInfo.username.trim()) {
-      alert("Vui lòng nhập username để thực hiện cập nhật !!");
+      pushAlert("Vui lòng nhập username để thực hiện cập nhật !!");
       return;
     }
     if (!updateInfo.numberPhone.trim()) {
-      alert("Vui lòng nhập số điện thoại để thực hiện cập nhật !!");
+      pushAlert("Vui lòng nhập số điện thoại để thực hiện cập nhật !!");
       return;
     }
     if (!/^\d{10}$/.test(updateInfo.numberPhone)) {
-      alert("Số điện thoại phải gồm đúng 10 chữ số !!");
+      pushAlert("Số điện thoại phải gồm đúng 10 chữ số !!");
       return;
     }
     const updateInfoUser = {
@@ -122,7 +131,7 @@ function Profile() {
     };
     updateUserStorage(updateInfoUser);
     setUpdateInfo({ ...updateInfo });
-    alert("Cập nhật thành công !!");
+    pushAlert("Cập nhật thành công !!");
   }, [updateInfo, storedUsers, updateUserStorage]);
 
   // Đổi logo từ máy tính
@@ -131,7 +140,7 @@ function Profile() {
       const file = e.target.files[0];
       if (file) {
         if (file.size > 100 * 1024) {
-          alert("Ảnh quá lớn, vui lòng chọn ảnh nhỏ hơn 100KB!");
+          pushAlert("Ảnh quá lớn, vui lòng chọn ảnh nhỏ hơn 100KB!");
           return;
         }
         const reader = new FileReader();
@@ -145,7 +154,7 @@ function Profile() {
           setUpdateInfo((prev) => ({ ...prev, avatar: ev.target.result }));
         };
         reader.readAsDataURL(file);
-        alert("Cập nhật ảnh đại diện thành công !!");
+        pushAlert("Cập nhật ảnh đại diện thành công !!");
       }
     },
     [storedUsers, updateUserStorage]
@@ -166,6 +175,7 @@ function Profile() {
 
   return (
     <div className={cx("Profile-Wrapper")}>
+      <Alert alertList={alerts} setAlertList={setAlerts}></Alert>
       <div className={cx("Profile-inner")}>
         <h3 className={cx("Profile-heading")}>Tài Khoản</h3>
         <p className={cx("Profile-desc")}>Cập nhật thông tin tài khoản</p>

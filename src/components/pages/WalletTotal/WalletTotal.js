@@ -17,6 +17,7 @@ import {
   faMars,
   faWallet,
 } from "@fortawesome/free-solid-svg-icons";
+import { Alert } from "../..";
 
 const cx = classNames.bind(styles);
 const dataBank = [
@@ -43,13 +44,29 @@ function WalletTotal() {
   const [contentQR, setContentQR] = useState(() =>
     Math.floor(Math.random() * 100)
   );
-  const [countdown, setCountdown] = useState(60);
+  const [countdown, setCountdown] = useState(250);
+  const [alerts, setAlerts] = useState([]);
+
+  //Chuyển đổi thời gian
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s.toString().padStart(2, "0")}`;
+  };
+  //Thực hiện push alerts
+
+  const pushAlert = (msg) => {
+    const id = Math.floor(Math.random() * 10000);
+    setAlerts((prev) => [...prev, { id, message: msg }]);
+  };
 
   const onHandleForm = useCallback(() => {
-    alert(
+    pushAlert(
       "Cảm ơn bạn đã thực hiện thanh toán hệ thông sẽ kiểm tra sớm nhất có thể cho bạn !!"
     );
-    window.location.href = "/";
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 5000);
   }, []);
 
   // Đếm ngược và đổi mã QR sau 60s
@@ -58,7 +75,7 @@ function WalletTotal() {
       setCountdown((prev) => {
         if (prev === 1) {
           setContentQR(Math.floor(Math.random() * 100));
-          return 60;
+          return 250;
         }
         return prev - 1;
       });
@@ -119,7 +136,9 @@ function WalletTotal() {
                 <input type="text" placeholder="Seri thẻ" />
               </div>
             </div>
-            <button className={cx("active-form")}>Gửi</button>
+            <button className={cx("active-form")} onClick={onHandleForm}>
+              Gửi
+            </button>
           </div>
         );
       }
@@ -171,13 +190,21 @@ function WalletTotal() {
           </div>
         );
       }
-      return null;
+      if (statusBank === "momo") {
+        return (
+          <div>
+            Tính năng này sẽ được cập nhật sớm nhất có thể. Mời bạn chọn tính
+            năng khác !!
+          </div>
+        );
+      }
     },
     [selectIdxCard, contentQR, activeDescBank, onHandleForm]
   );
 
   return (
     <div className={cx("WalletTotal-Wrapper")}>
+      <Alert setAlertList={setAlerts} alertList={alerts}></Alert>
       <div className={cx("WalletTotal-inner")}>
         <div className={cx("WalletTotal-heading")}>
           Nạp Coin-TT vào tài khoản
@@ -277,7 +304,7 @@ function WalletTotal() {
                   </div>
                   <span>Thanh toán qua ví momo</span>
                 </div>
-                <button>Chọn</button>
+                <button onClick={() => setStatusBank("momo")}>Chọn</button>
               </div>
               <div
                 className={cx("payment-item", {
@@ -315,7 +342,7 @@ function WalletTotal() {
                         <span>Chuyển khoản ngân hàng</span>
                       </div>
                       <div className={cx("qr-timer")}>
-                        <span>Mã QR sẽ đổi sau: {countdown}s</span>
+                        <span>Mã QR sẽ đổi sau: {formatTime(countdown)}s</span>
                       </div>
                     </div>
                   )}

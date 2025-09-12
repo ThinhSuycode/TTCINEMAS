@@ -96,14 +96,6 @@ function Header() {
     const id = Date.now();
     setAlerts((prev) => [...prev, { id, message: msg }]);
   };
-  // Thêm hàm tiện ích để push alert
-  // const setAlertContent = (msg) => {
-  //   setPushDataAlert((prev) => [...prev, msg]);
-  // };
-  //Thêm sự kiện khi alert thay đổi
-  // useEffect(() => {
-  //   window.dispatchEvent(new Event("alertChange"));
-  // }, [alertContent]);
 
   // Ẩn/hiện header khi scroll
   useEffect(() => {
@@ -224,7 +216,7 @@ function Header() {
     localStorage.setItem("userActive", JSON.stringify(activeUser));
     setUserActive(activeUser);
 
-    alert("Đăng nhập thành công");
+    pushAlert("Đăng nhập thành công");
     onHandleClose();
     clearInput();
   }, [loginForm, storedUsers]);
