@@ -8,6 +8,7 @@ import bank2 from "../../../assets/icon/phone.webp";
 import viettel from "../../../assets/icon/viettel.png";
 import mobi from "../../../assets/icon/mobiphone.png";
 import vina from "../../../assets/icon/vinaphone.png";
+import avatar from "../../../assets/icon/vietnam.jpg";
 
 import {
   faArrowRight,
@@ -184,7 +185,7 @@ function WalletTotal() {
         <div className={cx("WalletTotal-main")}>
           <div className={cx("main-info")}>
             <div className={cx("info-avatar")}>
-              <img src={userActive.avatar} alt="" />
+              <img src={userActive.avatar || avatar} alt="" />
             </div>
             <div className={cx("info-user")}>
               <div className={cx("user-name")}>

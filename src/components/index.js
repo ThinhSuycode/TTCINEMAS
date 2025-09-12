@@ -11,3 +11,4 @@ export { default as MovieVideo } from "./MovieVideo/MovieVideo";
 export { default as BannerDesign } from "./BannerDesign/BannerDesign";
 export { default as ScrollToTop } from "./ScrollToTop/ScrollToTop";
 export { default as MovieUserContent } from "./MovieUserContent/MovieUserContent.js";
+export { default as Alert } from "./AlertContent/AlertContent";

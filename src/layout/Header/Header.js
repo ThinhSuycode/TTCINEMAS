@@ -1,11 +1,12 @@
 import style from "./Header.module.scss";
 import classNames from "classnames/bind";
 import { config } from "../../config";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import logo from "../../assets/images/LOGO.png";
 import avatarNull from "../../assets/icon/vietnam.jpg";
 import imgLogin from "../../assets/images/TTmovieLogin.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Alert } from "../../components";
 import {
   faBackward,
   faCaretDown,
@@ -65,7 +66,7 @@ function Header() {
   const [dataGenres, setDataGenres] = useState([]);
   const [checkLogin, setCheckLogin] = useState(false);
   const [statusUser, setStatusUser] = useState("login");
-
+  const [alerts, setAlerts] = useState([]);
   const storedUsers = JSON.parse(localStorage.getItem("listUserAccount")) || [];
   const [userActive, setUserActive] = useState(
     JSON.parse(localStorage.getItem("userActive")) || {}
@@ -90,6 +91,19 @@ function Header() {
       setLoginForm({ ...loginForm, [name]: value });
     }
   };
+
+  const pushAlert = (msg) => {
+    const id = Date.now();
+    setAlerts((prev) => [...prev, { id, message: msg }]);
+  };
+  // Thêm hàm tiện ích để push alert
+  // const setAlertContent = (msg) => {
+  //   setPushDataAlert((prev) => [...prev, msg]);
+  // };
+  //Thêm sự kiện khi alert thay đổi
+  // useEffect(() => {
+  //   window.dispatchEvent(new Event("alertChange"));
+  // }, [alertContent]);
 
   // Ẩn/hiện header khi scroll
   useEffect(() => {
@@ -139,35 +153,35 @@ function Header() {
   };
 
   //Thực hiện đăng kí
-  const onHandleRegister = () => {
+  const onHandleRegister = useCallback(() => {
     if (!registerForm.username.trim()) {
-      alert("Thực hiện nhập username để thực hiện đăng ký !!");
+      pushAlert("Thực hiện nhập tên hiển thị để thực hiện đăng ký !!");
       return;
     }
     if (!registerForm.email.trim()) {
-      alert("Thực hiện nhập email để thực hiện đăng ký !!");
+      pushAlert("Thực hiện nhập email để thực hiện đăng ký !!");
       return;
     }
     if (!registerForm.password.trim()) {
-      alert("Thực hiện nhập password để thực hiện đăng ký !!");
+      pushAlert("Thực hiện nhập password để thực hiện đăng ký !!");
       return;
     }
     if (!registerForm.confirmPassword.trim()) {
-      alert("Thực hiện nhập xác thực mật khẩu để thực hiện đăng ký !!");
+      pushAlert("Thực hiện nhập xác thực mật khẩu để thực hiện đăng ký !!");
       return;
     }
     if (registerForm.password !== registerForm.confirmPassword) {
-      alert("Mật khẩu nhập lại không trùng với mật khẩu trên !!");
+      pushAlert("Mật khẩu nhập lại không trùng với mật khẩu trên !!");
       return;
     }
     if (registerForm.password.length <= 8) {
-      alert("Mật khẩu bắt buộc phải trên 8 kí tự !!");
+      pushAlert("Mật khẩu bắt buộc phải trên 8 kí tự !!");
       return;
     }
     if (
       storedUsers.findIndex((item) => item.email === registerForm.email) !== -1
     ) {
-      alert("Email đăng ký đã bị trùng, vui lòng chọn email khác !!");
+      pushAlert("Email đăng ký đã bị trùng, vui lòng chọn email khác !!");
       return;
     }
 
@@ -183,36 +197,37 @@ function Header() {
     storedUsers.push(userAccountNew);
     localStorage.setItem("listUserAccount", JSON.stringify(storedUsers));
     clearInput();
-    alert("Đăng ký thành công vui lòng thực hiện đăng nhập!!");
+    pushAlert("Đăng ký thành công vui lòng thực hiện đăng nhập!!");
     setStatusUser("login");
-  };
+  }, [registerForm, storedUsers]);
   //Đăng nhập
-  const onHandleLogin = () => {
+  const onHandleLogin = useCallback(() => {
     if (!loginForm.email.trim()) {
-      alert("Thực hiện nhập email để thực hiện đăng nhập !!");
+      pushAlert("Thực hiện nhập email để thực hiện đăng nhập !!");
       return;
     }
     if (!loginForm.password.trim()) {
-      alert("Thực hiện nhập password để thực hiện đăng nhập!!");
+      pushAlert("Thực hiện nhập password để thực hiện đăng nhập!!");
       return;
     }
     if (loginForm.password.length <= 8) {
-      alert("Mật khẩu bắt buộc phải trên 8 kí tự !!");
+      pushAlert("Mật khẩu bắt buộc phải trên 8 kí tự !!");
       return;
     }
     const activeUser = storedUsers.find(
       (u) => u.email === loginForm.email && u.password === loginForm.password
     );
-    localStorage.setItem("userActive", JSON.stringify(activeUser));
-
-    if (activeUser === -1) {
-      alert("Vui lòng kiểm tra lại email hoặc mật khẩu !!");
+    if (!activeUser) {
+      pushAlert("Vui lòng kiểm tra lại email hoặc mật khẩu !!");
       return;
     }
+    localStorage.setItem("userActive", JSON.stringify(activeUser));
+    setUserActive(activeUser);
+
     alert("Đăng nhập thành công");
     onHandleClose();
     clearInput();
-  };
+  }, [loginForm, storedUsers]);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -317,6 +332,9 @@ function Header() {
 
   return (
     <div className={cx("Header-Wrapper", { checkHidden: checkScroll })}>
+      {alerts.length > 0 && (
+        <Alert alertList={alerts} setAlertList={setAlerts} />
+      )}
       {checkLogin && (
         <div className={cx("include-login")}>
           {statusUser === "login" ? (

@@ -4,9 +4,9 @@ import style from "./Home.module.scss";
 import { ListMovie, ListMovieContent } from "../..";
 import { MovieListProvider } from "../../../context";
 import BannerHome from "../../BannerHome/BannerHome";
-
 import "react-multi-carousel/lib/styles.css";
 import { SearchProvider } from "../../../context/SearchProvider";
+import { Alert } from "../..";
 
 const cx = classNames.bind(style);
 
