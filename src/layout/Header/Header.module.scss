@@ -51,7 +51,7 @@
           }
           .submenu-inner {
             position: absolute;
-            background-color: #4b4b4b;
+            background-color: #2727279c;
             border-radius: 5px;
             overflow: hidden;
             border: 1px solid white;
@@ -69,9 +69,12 @@
                 width: 30%;
                 transition: 0.25s ease-in-out;
                 margin-left: 15px;
+                border-left: 3px solid lightslategray;
+                padding-left: 5px;
 
                 &:hover {
-                  color: orange;
+                  color: rgb(253, 255, 116);
+                  border-left-color: rgb(255, 255, 255);
                   // box-shadow: 0px 0px 20px rgba(15, 104, 237, 0.819);
                 }
               }
@@ -108,7 +111,12 @@
         font-family: ui-monospace;
         border: none;
         outline: none;
-        border: 1px solid;
+        border: 1px solid rgb(65 63 63);
+        background-color: transparent;
+        color: white;
+        &:focus {
+          border: 1px solid wheat;
+        }
       }
       .Header-searchButton {
         padding: 7px 15px;

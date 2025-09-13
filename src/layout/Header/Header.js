@@ -96,6 +96,12 @@ function Header() {
     const id = Date.now();
     setAlerts((prev) => [...prev, { id, message: msg }]);
   };
+  // //Lưu giá trị search
+  // useEffect(() => {
+  //   if (inputSearch.trim()) {
+  //     localStorage.setItem("searchInput", JSON.stringify(inputSearch || ""));
+  //   }
+  // }, [inputSearch]);
 
   // Ẩn/hiện header khi scroll
   useEffect(() => {
@@ -288,24 +294,14 @@ function Header() {
     };
   }, []);
 
-  const fetchSearchMovie = async (input) => {
-    try {
-      const url = `https://api.themoviedb.org/3/search/movie?query=${input}&include_adult=false&language=vi&page=1`;
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwZmFjZDNiOWY0NTJlMjE1ZGY5NzRhMjkyYzQxMmY5MSIsIm5iZiI6MTc1NDczMTQ4OS42Mywic3ViIjoiNjg5NzEzZTFkMDg3NThjYTBlMjY3NzIzIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.cEm5zG-WP9ikzUMhq08tUt0XuafbfJOZUozbCYnQxas`,
-        },
-      };
-      const res = await fetch(url, options);
-      const data = await res.json();
-      localStorage.setItem("dataSearch", JSON.stringify(data.results));
-      window.dispatchEvent(new Event("dataSearchUpdate"));
-    } catch (error) {
-      console.log(error);
+  const onHandleSearch = useCallback(() => {
+    if (inputSearch.trim()) {
+      localStorage.setItem("searchInput", JSON.stringify(inputSearch || ""));
+      window.dispatchEvent(new Event("changeSearch"));
+      window.location.href = `/search/${inputSearch}-result`;
     }
-  };
+  }, [inputSearch]);
+
   const toSlug = (str) => {
     return str
       .normalize("NFD") // tách dấu
@@ -501,7 +497,7 @@ function Header() {
           />
           <button
             className={cx("Header-searchButton")}
-            onClick={() => fetchSearchMovie(inputSearch)}
+            onClick={onHandleSearch}
           >
             Search
           </button>

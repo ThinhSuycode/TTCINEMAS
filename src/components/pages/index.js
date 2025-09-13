@@ -9,3 +9,4 @@ export { default as Favorite } from "./Favorite/Favorite";
 export { default as PlayList } from "./PlayList/PlayList";
 export { default as MovieAll } from "./MovieAll/MovieAll";
 export { default as WalletTotal } from "./WalletTotal/WalletTotal";
+export { default as SearchResult } from "./SearchResult/SearchResult";

@@ -10,6 +10,7 @@ import {
   PlayList,
   MovieAll,
   WalletTotal,
+  SearchResult,
 } from "../components/pages";
 import { config } from "../config";
 const publicRoute = [
@@ -39,6 +40,7 @@ const publicRoute = [
   { path: config.routes.Favorite, component: Favorite, page: User },
   { path: config.routes.PlayList, component: PlayList, page: User },
   { path: config.routes.WalletTotal, component: WalletTotal, page: PageOnly },
+  { path: config.routes.SearchResult, component: SearchResult, page: PageOnly },
 ];
 const privateRoute = [];
 export { publicRoute, privateRoute };

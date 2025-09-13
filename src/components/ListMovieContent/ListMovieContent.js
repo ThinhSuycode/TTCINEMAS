@@ -16,6 +16,7 @@ function ListMovieContent({
   large,
   showPaginationPage,
   showButton,
+  search,
 }) {
   const [activeMovie, setActiveMovie] = useState({});
   let [pageCount, setPageCount] = useState(1); // trang hiện tại
@@ -77,6 +78,7 @@ function ListMovieContent({
         {title && (
           <div className={cx("ListMovieContent-top")}>
             <p className={cx("ListMovieContent-top__heading")}>{title}</p>
+            {search && <span>{search || ""}</span>}
             {showButton && (
               <Button
                 to={`${config.routes.MovieAll}`}
@@ -89,31 +91,39 @@ function ListMovieContent({
           </div>
         )}
         <div className={cx("ListMovieContent-list", { activeLarge: large })}>
-          {data.map((item) => {
-            if (!item.poster_path) return null;
-            return (
-              <a
-                href={config.routes.MovieDetail}
-                key={item.id}
-                className={cx("listMovie-item", {
-                  listMovieItem__large: large,
-                })}
-                onClick={() => onHandleMovie(item)}
-              >
-                <img
-                  src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
-                  alt={item.title}
-                  className={cx("listMovie-item__img")}
-                />
-                <div className={cx("listMovie-item__info")}>
-                  <p className={cx("listMovie-item__title")}>{item.title}</p>
-                  <p className={cx("listMovie-item__original_title")}>
-                    {item.original_title}
-                  </p>
-                </div>
-              </a>
-            );
-          })}
+          {data && data.length > 0 ? (
+            data.map((item) => {
+              if (!item.poster_path) return null;
+              return (
+                <a
+                  href={config.routes.MovieDetail}
+                  key={item.id}
+                  className={cx("listMovie-item", {
+                    listMovieItem__large: large,
+                  })}
+                  onClick={() => onHandleMovie(item)}
+                >
+                  <img
+                    src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
+                    alt={item.title}
+                    className={cx("listMovie-item__img")}
+                  />
+                  <div className={cx("listMovie-item__info")}>
+                    <p className={cx("listMovie-item__title")}>{item.title}</p>
+                    <p className={cx("listMovie-item__original_title")}>
+                      {item.original_title}
+                    </p>
+                  </div>
+                </a>
+              );
+            })
+          ) : (
+            <div className={cx("box")}>
+              <div className={cx("empty")}>
+                Không có kết quả vui lòng thử lại !!
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {showPaginationPage && data.length > 0 && pageTotal > 1 && (

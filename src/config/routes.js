@@ -10,4 +10,5 @@ export const routes = {
   PlayList: "/user/playlist",
   MovieAll: "/movieAll",
   WalletTotal: "/user/nap-coin",
+  SearchResult: "/search/:ma",
 };

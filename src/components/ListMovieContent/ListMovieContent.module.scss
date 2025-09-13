@@ -10,8 +10,13 @@
   .ListMovieContent-inner {
     .ListMovieContent-top {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      span {
+        color: white;
+        font-size: 18px;
+        font-weight: 700;
+        margin-left: 10px;
+      }
       .ListMovieContent-top__heading {
         font-size: 19px;
         font-weight: 700;
@@ -64,6 +69,28 @@
       flex-wrap: wrap;
       gap: 13px;
       padding-bottom: 10px;
+      .box {
+        height: 200px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .empty {
+          color: white;
+          font-size: 20px;
+          padding: 20px 0px;
+          font-family: ui-sans-serif;
+          width: 70%;
+          font-weight: 800;
+          height: 100px;
+          display: flex;
+          align-items: center;
+          background-color: #131713;
+          border-radius: 20px;
+          justify-content: center;
+          border: 2px solid wheat;
+        }
+      }
 
       .listMovie-item {
         width: 19%;
