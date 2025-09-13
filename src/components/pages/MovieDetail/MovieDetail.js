@@ -108,16 +108,15 @@ function MovieDetail() {
         setActivePlayList(false);
       }
     };
-    document.addEventListener("click", handleClickOutside);
+    window.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      window.removeEventListener("click", handleClickOutside);
     };
   }, []);
   //Xử lý hàm thêm danh sách
   const onHandlePlayList = useCallback(() => {
     if (!stored.email) {
       pushAlert("Vui lòng đăng nhập để sử dụng tính năng này!");
-      window.location.href = "/";
       return;
     }
     setActivePlayList(true);
@@ -188,7 +187,9 @@ function MovieDetail() {
     if (selectMovie.id) fetchMovieDetail(selectMovie.id);
     else {
       pushAlert("Lỗi dữ liệu. Vui lòng thử lại!!");
-      window.location.href = "/";
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 4000);
     }
   }, [selectMovie.id]);
 
@@ -196,7 +197,6 @@ function MovieDetail() {
   const onHandleHeart = useCallback(() => {
     if (!stored.email) {
       pushAlert("Vui lòng đăng nhập để sử dụng tính năng này!");
-      window.location.href = "/";
       return;
     }
     if (!exists) {
