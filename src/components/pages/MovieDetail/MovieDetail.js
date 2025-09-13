@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./MovieDetail.module.scss";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -41,6 +41,8 @@ function MovieDetail() {
     (m) => m.id === selectedDetail.id
   );
   const [alerts, setAlerts] = useState([]);
+  const bookMarkRef = useRef(null);
+  const playListModalRef = useRef(null);
 
   //Thực hiện push alerts
 
@@ -102,15 +104,17 @@ function MovieDetail() {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
-        !e.target.closest(`.${cx("icon-bookMark")}`) &&
-        !e.target.closest(".PlayList-modal")
+        bookMarkRef.current &&
+        !bookMarkRef.current.contains(e.target) &&
+        playListModalRef.current &&
+        !playListModalRef.current.contains(e.target)
       ) {
         setActivePlayList(false);
       }
     };
-    window.addEventListener("click", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      window.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
   //Xử lý hàm thêm danh sách
@@ -120,7 +124,7 @@ function MovieDetail() {
       return;
     }
     setActivePlayList(true);
-  }, []);
+  }, [stored.email]);
 
   useEffect(() => {
     if (selectPlayListIdx !== null && selectMovie.id) {
@@ -190,6 +194,7 @@ function MovieDetail() {
       setTimeout(() => {
         window.location.href = "/";
       }, 4000);
+      return;
     }
   }, [selectMovie.id]);
 
@@ -376,6 +381,7 @@ function MovieDetail() {
                   <div
                     className={cx("icon-bookMark")}
                     onClick={onHandlePlayList}
+                    ref={bookMarkRef}
                   >
                     <button
                       className={cx("bookMark", {
@@ -387,11 +393,14 @@ function MovieDetail() {
                       <FontAwesomeIcon icon={faPlus} />
                     </button>
                     {activePlayList && (
-                      <div className={cx("PlayList-modal")}>
+                      <div
+                        className={cx("PlayList-modal")}
+                        ref={playListModalRef}
+                      >
                         <div className={cx("PlayList-list")}>
                           <div className={cx("PlayList-top")}>
                             <p>Danh sách</p>
-                            <p>{stored.storedPlayList.length}/5</p>
+                            <p>{stored.storedPlayList?.length || 0}/5</p>
                           </div>
                           <div className={cx("PlayList-content")}>
                             {stored.storedPlayList?.map((item, idx) => (
@@ -407,7 +416,7 @@ function MovieDetail() {
                                       (m) => m.id === selectedDetail.id
                                     )}
                                     onClick={() => setActivePlayList(false)}
-                                    // readOnly
+                                    readOnly
                                   />
                                   <span>{item.name}</span>
                                 </label>
