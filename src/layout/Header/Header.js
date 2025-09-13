@@ -221,10 +221,12 @@ function Header() {
     }
     localStorage.setItem("userActive", JSON.stringify(activeUser));
     setUserActive(activeUser);
-
-    pushAlert("Đăng nhập thành công");
+    pushAlert("Đăng nhập thành công. Vui lòng chờ giây lát !!");
     onHandleClose();
     clearInput();
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 4000);
   }, [loginForm, storedUsers]);
 
   useEffect(() => {
