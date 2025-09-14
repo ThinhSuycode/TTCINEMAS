@@ -157,22 +157,22 @@ function ListMovieContent({
                 )}
               </div>
             )}
-            {showPaginationPage && data.length > 0 && pageTotal > 1 && (
-              <div className={cx("list-page")}>
-                <div className={cx("prev-page", "icon")} onClick={handlePrev}>
-                  <FontAwesomeIcon icon={faAnglesLeft} />
-                </div>
-
-                <div className={cx("list-count")}>
-                  <div className={cx("list-count-page")}>{renderPages()}</div>
-                </div>
-
-                <div className={cx("next-page", "icon")} onClick={handleNext}>
-                  <FontAwesomeIcon icon={faAnglesRight} />
-                </div>
-              </div>
-            )}
           </div>
+          {showPaginationPage && data.length > 0 && pageTotal > 1 && (
+            <div className={cx("list-page")}>
+              <div className={cx("prev-page", "icon")} onClick={handlePrev}>
+                <FontAwesomeIcon icon={faAnglesLeft} />
+              </div>
+
+              <div className={cx("list-count")}>
+                <div className={cx("list-count-page")}>{renderPages()}</div>
+              </div>
+
+              <div className={cx("next-page", "icon")} onClick={handleNext}>
+                <FontAwesomeIcon icon={faAnglesRight} />
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
