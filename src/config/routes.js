@@ -1,7 +1,7 @@
 export const routes = {
   Home: "/",
   Payment: "/payment",
-  MovieDetail: "/movieDetail",
+  MovieDetail: "/chi-tiet/:movie",
   ListGenres: "/listGenres",
   MovieUpComing: "/movieUpComing",
   User: "/user",

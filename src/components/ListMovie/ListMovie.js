@@ -36,7 +36,7 @@ function ListMovie({ title, data = [] }) {
           if (!item.poster_path) return null;
           return (
             <a
-              href={config.routes.MovieDetail}
+              href={`/chi-tiet/${item.title?.replace(/\s+/g, "")}-phim`}
               className={cx("movie-item")}
               key={item.id}
               onClick={() => onHandleMovieList(item)}

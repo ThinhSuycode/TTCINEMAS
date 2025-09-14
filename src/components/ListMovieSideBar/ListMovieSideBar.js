@@ -19,6 +19,7 @@ function ListMovieSideBar({ title, data = [] }) {
       localStorage.setItem("selectedMovie", JSON.stringify(activeMovie));
     }
   }, [activeMovie]);
+  console.log(data);
   return (
     <div className={cx("ListMovieSideBar-Wrapper")}>
       <div className={cx("ListMovieSideBar-inner")}>
@@ -26,7 +27,7 @@ function ListMovieSideBar({ title, data = [] }) {
         <div className={cx("ListMovieSideBar")}>
           {data.map((item) => (
             <a
-              href={config.routes.MovieDetail}
+              href={`/chi-tiet/${item.title?.replace(/\s+/g, "")}-phim`}
               key={item.id}
               className={cx("movieTrending-item")}
               onClick={() => onHandleSideBar(item)}

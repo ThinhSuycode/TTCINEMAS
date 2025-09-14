@@ -9,6 +9,7 @@ function ListGenres() {
   const [listMovieGenres, setListMovieGenres] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [selectPageGenre, setSelectPageGenre] = useState(1);
+
   useEffect(() => {
     const handlePageChange = (e) => {
       const newPage = e.detail;

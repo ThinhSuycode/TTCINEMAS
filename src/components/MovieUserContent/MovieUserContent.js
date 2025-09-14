@@ -59,7 +59,10 @@ function MovieUserContent({
       <div className={cx("delete-item")} onClick={() => onHandleDelete(idx)}>
         <FontAwesomeIcon icon={faXmark} />
       </div>
-      <a href={config.routes.MovieDetail} onClick={() => setActiveMovie(item)}>
+      <a
+        href={`/chi-tiet/${item.title?.replace(/\s+/g, "")}-phim`}
+        onClick={() => setActiveMovie(item)}
+      >
         <img
           src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
           alt={item.title}

@@ -43,7 +43,8 @@ function MovieDetail() {
   const [alerts, setAlerts] = useState([]);
   const bookMarkRef = useRef(null);
   const playListModalRef = useRef(null);
-
+  // const originalString = "Hello, world!";
+  // const newString = originalString.replace(",", ".");
   //Thực hiện push alerts
 
   const pushAlert = (msg) => {

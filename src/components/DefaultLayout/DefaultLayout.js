@@ -32,7 +32,7 @@ function DefaultLayout({ children, only }) {
       const data3 = await res3.json();
       const data4 = await res4.json();
 
-      setListMovieTrending(data3.results.slice(0, 10));
+      setListMovieTrending(data3.results.slice(0, 11));
       setListMovieComing(data4.results.slice(0, 15));
     };
     fetchMovie();

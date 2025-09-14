@@ -4,6 +4,7 @@ import ListMovieContent from "../../ListMovieContent/ListMovieContent";
 import { useEffect, useState } from "react";
 import ListMovie from "../../ListMovie/ListMovie";
 import { SearchProvider } from "../../../context/SearchProvider";
+import { useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -12,6 +13,12 @@ function MovieUpComing() {
   const [movieTopRate, setMovieTopRate] = useState([]);
   const [page, setPage] = useState(null);
   const [pageChanges, setPageChanges] = useState(1);
+  const { pathname } = useLocation();
+
+  //Quay về trang đầu khi load trang
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname, pageChanges]);
 
   const searchResult = SearchProvider();
   useEffect(() => {

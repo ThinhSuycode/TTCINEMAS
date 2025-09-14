@@ -1,6 +1,25 @@
 .ListMovieContent-Wrapper {
   position: relative;
   // margin-bottom: 20px;
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    width: 100%;
+    height: 350px;
+    animation: rotate 1s linear infinite;
+    color: white;
+    margin: 109px 0px;
+  }
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
   .border-top {
     position: absolute;
     width: 100%;
@@ -9,14 +28,16 @@
   }
   .ListMovieContent-inner {
     .ListMovieContent-top {
-      display: flex;
-      align-items: center;
-      span {
+      .search {
         color: white;
         font-size: 18px;
         font-weight: 700;
         margin-left: 10px;
       }
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
       .ListMovieContent-top__heading {
         font-size: 19px;
         font-weight: 700;
@@ -38,7 +59,7 @@
         background-color: rgb(255, 255, 255);
         cursor: pointer;
         position: relative;
-        color: darkblue;
+        color: darkblue !important;
         z-index: 1;
         transition: 0.25s ease-in-out;
         overflow: hidden;
@@ -63,6 +84,9 @@
           width: 100%;
         }
       }
+    }
+    .searchAct {
+      justify-content: start;
     }
     .ListMovieContent-list {
       display: flex;
@@ -138,76 +162,77 @@
         overflow: hidden;
         border: 1px solid white;
       }
+      .list-page {
+        display: flex;
+        user-select: none;
+        padding: 10px;
+        border-radius: 30px;
+        background-color: rgba(13, 148, 160, 0.6);
+        cursor: pointer;
+        max-width: 500px;
+        align-items: center;
+        height: 50px;
+        justify-content: center;
+        margin: 25px auto 0px;
+        justify-content: space-between;
+
+        .icon {
+          font-size: 25px;
+          // position: absolute;
+          color: white;
+          transition: 0.25s ease-in-out;
+          &:hover {
+            color: black;
+          }
+        }
+        .prev-page {
+          margin-left: 5px;
+        }
+        .next-page {
+          margin-right: 5px;
+        }
+        .list-count {
+          width: 90%;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 20px;
+          .list-count-page {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 12px;
+            max-width: 100%;
+            overflow: hidden;
+            .page-count-item {
+              background-color: white;
+              display: flex;
+              border-radius: 50%;
+              justify-content: center;
+              align-items: center;
+              font-size: 14px;
+              font-weight: 700;
+              transition: 0.25s ease-in-out;
+              color: black;
+              min-width: 30px;
+              min-height: 30px;
+              text-align: center;
+              &:hover {
+                background-color: black;
+                color: rgb(0, 255, 229);
+              }
+            }
+            .activePage {
+              background-color: black;
+              color: rgb(0, 255, 229);
+            }
+          }
+        }
+      }
     }
     .activeLarge {
       gap: 19px;
-    }
-  }
-  .list-page {
-    display: flex;
-    user-select: none;
-    padding: 10px;
-    border-radius: 30px;
-    background-color: rgba(13, 148, 160, 0.6);
-    cursor: pointer;
-    max-width: 500px;
-    align-items: center;
-    height: 50px;
-    justify-content: center;
-    margin: 25px auto 0px;
-    justify-content: space-between;
-
-    .icon {
-      font-size: 25px;
-      // position: absolute;
-      color: white;
-      transition: 0.25s ease-in-out;
-      &:hover {
-        color: black;
-      }
-    }
-    .prev-page {
-      margin-left: 5px;
-    }
-    .next-page {
-      margin-right: 5px;
-    }
-    .list-count {
-      width: 90%;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      .list-count-page {
-        display: flex;
-        align-items: center;
-        flex-wrap: nowrap;
-        gap: 12px;
-        max-width: 100%;
-        overflow: hidden;
-        .page-count-item {
-          background-color: white;
-          display: flex;
-          border-radius: 50%;
-          justify-content: center;
-          align-items: center;
-          font-size: 14px;
-          font-weight: 700;
-          transition: 0.25s ease-in-out;
-          color: black;
-          min-width: 30px;
-          min-height: 30px;
-          text-align: center;
-          &:hover {
-            background-color: black;
-            color: rgb(0, 255, 229);
-          }
-        }
-        .activePage {
-          background-color: black;
-          color: rgb(0, 255, 229);
-        }
-      }
     }
   }
 }
