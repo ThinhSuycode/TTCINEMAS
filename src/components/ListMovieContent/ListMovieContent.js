@@ -10,7 +10,6 @@ import {
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button";
-import { useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -29,12 +28,28 @@ function ListMovieContent({
   let [pageRange, setPageRange] = useState([1, 9]); // khoảng trang đang hiển thị
   const [loading, setLoading] = useState(false);
   const [delayData, setDelayData] = useState(data || []);
-  const { pathname } = useLocation();
 
+  // console.log(movieWithKey);
+  const toSlug = (str) => {
+    return str
+      .normalize("NFD") // tách dấu
+      .replace(/[\u0300-\u036f]/g, "") // xóa dấu
+      .toLowerCase()
+      .replace(/đ/g, "d") // thay đ -> d
+      .replace(/[^a-z0-9\s-]/g, "") // bỏ ký tự đặc biệt
+      .trim()
+      .replace(/\s+/g, "-"); // thay space = -
+  };
+
+  const movieWithKey = data.map((item) => ({
+    ...item,
+    key: toSlug(item.title),
+  }));
   //Delay data
+  console.log("key", movieWithKey);
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      setDelayData(data);
+      setDelayData(movieWithKey);
       setLoading(true);
     }, 1000);
     return () => {
@@ -46,6 +61,7 @@ function ListMovieContent({
     window.scrollTo(0, 0);
     setLoading(false);
   }, [pageCount]);
+
   const onHandleView = () => {
     const listNew = {
       title,
@@ -120,12 +136,12 @@ function ListMovieContent({
             </div>
           )}
           <div className={cx("ListMovieContent-list", { activeLarge: large })}>
-            {data && data.length > 0 ? (
-              data.map((item) => {
+            {delayData && delayData.length > 0 ? (
+              delayData.map((item) => {
                 if (!item.poster_path) return null;
                 return (
                   <a
-                    href={`/chi-tiet/${item.title?.replace(/\s+/g, "")}-phim`}
+                    href={`/chi-tiet/${item.key}-movie`}
                     key={item.id}
                     className={cx("listMovie-item", {
                       listMovieItem__large: large,

@@ -1,15 +1,15 @@
 import classNames from "classnames/bind";
 import styles from "./Favorite.module.scss";
 import Button from "../../Button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import MovieUserContent from "../../MovieUserContent/MovieUserContent";
 
 const cx = classNames.bind(styles);
 
 function Favorite() {
-  const userActiveRaw = localStorage.getItem("userActive");
-  const userActive = userActiveRaw ? JSON.parse(userActiveRaw) : {};
-
+  const userActive = useMemo(() => {
+    return JSON.parse(localStorage.getItem("userActive")) || {};
+  }, []);
   const [favoriteList, setFavoriteList] = useState({
     listMovie: [],
     listActor: [],

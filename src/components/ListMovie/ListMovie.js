@@ -3,7 +3,6 @@ import styles from "./ListMovie.module.scss";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useEffect, useState } from "react";
-import { config } from "../../config";
 import PropTypes from "prop-types";
 
 const cx = classNames.bind(styles);
@@ -21,7 +20,23 @@ function ListMovie({ title, data = [] }) {
   const onHandleMovieList = (item) => {
     setActiveMovieList(item);
   };
+  const toSlug = (str) => {
+    return str
+      .normalize("NFD") // tách dấu
+      .replace(/[\u0300-\u036f]/g, "") // xóa dấu
+      .toLowerCase()
+      .replace(/đ/g, "d") // thay đ -> d
+      .replace(/[^a-z0-9\s-]/g, "") // bỏ ký tự đặc biệt
+      .trim()
+      .replace(/\s+/g, "-"); // thay space = -
+  };
 
+  const movieWithKey = data.map((item) => ({
+    ...item,
+    key: toSlug(item.title),
+  }));
+
+  console.log(movieWithKey);
   useEffect(() => {
     if (Object.keys(activeMovieList).length > 0) {
       localStorage.setItem("selectedMovie", JSON.stringify(activeMovieList));
@@ -32,11 +47,11 @@ function ListMovie({ title, data = [] }) {
     <div className={cx("movie-inner")}>
       <p className={cx("movie-heading")}>{title}</p>
       <Carousel responsive={responsive} className={cx("list-movie")}>
-        {data.map((item) => {
+        {movieWithKey.map((item) => {
           if (!item.poster_path) return null;
           return (
             <a
-              href={`/chi-tiet/${item.title?.replace(/\s+/g, "")}-phim`}
+              href={`/chi-tiet/${item.key}-movie`}
               className={cx("movie-item")}
               key={item.id}
               onClick={() => onHandleMovieList(item)}

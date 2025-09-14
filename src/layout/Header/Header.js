@@ -319,6 +319,7 @@ function Header() {
     ...item,
     key: toSlug(item.name),
   }));
+  console.log(genresWithKey);
 
   return (
     <div className={cx("Header-Wrapper", { checkHidden: checkScroll })}>
@@ -466,7 +467,7 @@ function Header() {
                         <a
                           key={item.id}
                           className={cx("submenu-item")}
-                          href={`${config.routes.ListGenres}`}
+                          href={`/the-loai/${item.key}-genres`}
                           onClick={() => onHandleGenres(item)}
                         >
                           {item.name}

@@ -2,14 +2,24 @@ import classNames from "classnames/bind";
 import styles from "./MovieUserContent.module.scss";
 import PropTypes from "prop-types";
 import { config } from "../../config";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { Alert } from "..";
 
 const cx = classNames.bind(styles);
+
+// Hàm tạo slug có thể tái sử dụng
+const toSlug = (str) =>
+  str
+    ?.normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/đ/g, "d")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
 
 function MovieUserContent({
   data = [],
@@ -29,54 +39,51 @@ function MovieUserContent({
     () => JSON.parse(localStorage.getItem("listUserAccount")) || []
   );
   const [delayedData, setDelayedData] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const [alerts, setAlerts] = useState([]);
 
-  //Thực hiện push alerts
+  // Memo tránh tính lại không cần thiết
+  const movieWithKey = useMemo(
+    () => dataUpdate.map((item) => ({ ...item, key: toSlug(item.title) })),
+    [dataUpdate]
+  );
 
-  const pushAlert = (msg) => {
-    const id = Math.floor(Math.random() * 10000);
-    setAlerts((prev) => [...prev, { id, message: msg }]);
-  };
+  const pushAlert = useCallback((msg) => {
+    setAlerts((prev) => [...prev, { id: Date.now(), message: msg }]);
+  }, []);
 
-  // Delay 1s khi dataUpdate thay đổi và show loading
+  // Delay loading
   useEffect(() => {
     setLoading(true);
     const timer = setTimeout(() => {
-      setDelayedData(dataUpdate);
+      setDelayedData(movieWithKey);
       setLoading(false);
     }, 1000);
     return () => clearTimeout(timer);
-  }, [dataUpdate]);
-  const renderResult = (item, idx) => (
-    <div
-      key={item.id}
-      className={cx("listMovie-item", {
-        listMovieItem__large: large,
-      })}
-    >
-      <div className={cx("delete-item")} onClick={() => onHandleDelete(idx)}>
-        <FontAwesomeIcon icon={faXmark} />
-      </div>
-      <a
-        href={`/chi-tiet/${item.title?.replace(/\s+/g, "")}-phim`}
-        onClick={() => setActiveMovie(item)}
-      >
-        <img
-          src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
-          alt={item.title}
-          className={cx("listMovie-item__img")}
-        />
-        <div className={cx("listMovie-item__info")}>
-          <p className={cx("listMovie-item__title")}>{item.title}</p>
-          <p className={cx("listMovie-item__original_title")}>
-            {item.original_title}
-          </p>
-        </div>
-      </a>
-    </div>
-  );
+  }, [movieWithKey]);
+
+  // Chỉ chạy khi userActive thay đổi
+  useEffect(() => {
+    if (favorite && userActive) {
+      setDataUpdate(userActive.storedMovies || []);
+    }
+  }, [favorite, userActive]);
+
+  // Chỉ chạy khi playlist thay đổi
+  useEffect(() => {
+    if (playlist) {
+      setDataUpdate(data?.[selectIdx]?.movies || []);
+    }
+  }, [playlist, selectIdx, data]);
+
+  // Mặc định
+  useEffect(() => {
+    if (!favorite && !playlist) {
+      setDataUpdate(data || []);
+    }
+  }, [data, favorite, playlist]);
+
+  // Lắng nghe xoá playlist từ nơi khác
   useEffect(() => {
     const handleStorage = () => {
       const updatedUserActive =
@@ -86,34 +93,23 @@ function MovieUserContent({
     window.addEventListener("deletePlayList", handleStorage);
     return () => window.removeEventListener("deletePlayList", handleStorage);
   }, []);
-  // Cập nhật dataUpdate theo loại hiển thị
-  useEffect(() => {
-    if (favorite) {
-      setDataUpdate(userActive.storedMovies || []);
-    } else if (playlist) {
-      setDataUpdate(data?.[selectIdx]?.movies || []);
-    } else {
-      setDataUpdate(data || []);
-    }
-  }, [favorite, playlist, selectIdx, data, userActive.storedMovies]);
 
-  // Lưu phim đang chọn vào localStorage
+  // Lưu phim đang chọn
   useEffect(() => {
     if (Object.keys(activeMovie).length > 0) {
       localStorage.setItem("selectedMovie", JSON.stringify(activeMovie));
     }
   }, [activeMovie]);
 
-  // Xoá phim khỏi danh sách (favorite hoặc playlist)
+  // Xoá phim
   const onHandleDelete = useCallback(
     (idx) => {
-      let newData;
-      let newUpdate;
+      let newUpdate = { ...userActive };
+      let newData = dataUpdate;
+
       if (favorite) {
-        newData = dataUpdate.filter((_, i) => idx !== i);
-        newUpdate = { ...userActive, storedMovies: newData };
-        setUserActive(newUpdate);
-        setDataUpdate(newData);
+        newData = dataUpdate.filter((_, i) => i !== idx);
+        newUpdate.storedMovies = newData;
         pushAlert("Đã xoá khỏi danh sách phim yêu thích !!");
       } else if (playlist) {
         const updatedPlayList = userActive.storedPlayList.map((pl, i) =>
@@ -122,35 +118,73 @@ function MovieUserContent({
             : pl
         );
         newData = updatedPlayList[selectIdx]?.movies || [];
-        newUpdate = { ...userActive, storedPlayList: updatedPlayList };
-        setUserActive(newUpdate);
-        setDataUpdate(newData);
+        newUpdate.storedPlayList = updatedPlayList;
         pushAlert("Đã xoá phim khỏi danh sách !!");
       } else {
-        newData = dataUpdate.filter((_, i) => idx !== i);
-        setDataUpdate(newData);
-        return;
+        newData = dataUpdate.filter((_, i) => i !== idx);
       }
+
+      setUserActive(newUpdate);
+      setDataUpdate(newData);
       localStorage.setItem("userActive", JSON.stringify(newUpdate));
+
       const newListAccount = listAccount.map((item) =>
         item.email === userActive.email ? newUpdate : item
       );
-      window.dispatchEvent(new Event("storage"));
       setListAccount(newListAccount);
       localStorage.setItem("listUserAccount", JSON.stringify(newListAccount));
+
+      window.dispatchEvent(new Event("storage"));
     },
-    [favorite, playlist, selectIdx, dataUpdate, userActive, listAccount]
+    [
+      favorite,
+      playlist,
+      selectIdx,
+      dataUpdate,
+      userActive,
+      listAccount,
+      pushAlert,
+    ]
   );
 
   const onHandleView = useCallback(() => {
-    const listNew = { title, data };
-    localStorage.setItem("viewGenresAll", JSON.stringify(listNew));
+    localStorage.setItem("viewGenresAll", JSON.stringify({ title, data }));
   }, [title, data]);
+
+  const renderResult = useCallback(
+    (item, idx) => (
+      <div
+        key={item.id}
+        className={cx("listMovie-item", { listMovieItem__large: large })}
+      >
+        <div className={cx("delete-item")} onClick={() => onHandleDelete(idx)}>
+          <FontAwesomeIcon icon={faXmark} />
+        </div>
+        <a
+          href={`/chi-tiet/${item.key}-movie`}
+          onClick={() => setActiveMovie(item)}
+        >
+          <img
+            src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
+            alt={item.title}
+            className={cx("listMovie-item__img")}
+          />
+          <div className={cx("listMovie-item__info")}>
+            <p className={cx("listMovie-item__title")}>{item.title}</p>
+            <p className={cx("listMovie-item__original_title")}>
+              {item.original_title}
+            </p>
+          </div>
+        </a>
+      </div>
+    ),
+    [large, onHandleDelete]
+  );
 
   return (
     <div className={cx("MovieUserContent-Wrapper")}>
-      <Alert setAlertList={setAlerts} alertList={alerts}></Alert>
-      {showButton && <div className={cx("border-top")}></div>}
+      <Alert setAlertList={setAlerts} alertList={alerts} />
+      {showButton && <div className={cx("border-top")} />}
       <div className={cx("MovieUserContent-inner")}>
         {title && (
           <div className={cx("MovieUserContent-top")}>
@@ -171,11 +205,10 @@ function MovieUserContent({
             <div className={cx("loading")}>
               <FontAwesomeIcon icon={faSpinner} spin size="2x" />
             </div>
-          ) : Array.isArray(delayedData) && delayedData.length > 0 ? (
-            delayedData.map((item, idx) => {
-              if (!item.poster_path) return null;
-              return renderResult(item, idx);
-            })
+          ) : delayedData?.length > 0 ? (
+            delayedData.map(
+              (item, idx) => item.poster_path && renderResult(item, idx)
+            )
           ) : (
             <div className={cx("empty")}></div>
           )}
