@@ -174,7 +174,7 @@ function ListMovieContent({
               </div>
             )}
           </div>
-          {showPaginationPage && data.length > 0 && pageTotal > 1 && (
+          {showPaginationPage && movieWithKey.length > 0 && pageTotal > 1 && (
             <div className={cx("list-page")}>
               <div className={cx("prev-page", "icon")} onClick={handlePrev}>
                 <FontAwesomeIcon icon={faAnglesLeft} />
